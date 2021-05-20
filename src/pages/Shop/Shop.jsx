@@ -108,7 +108,7 @@ export const Shop = () => {
                 ratings,
                 numberOfRatings,
                 offer,
-                // sale,
+                sale,
               } = product;
               return (
                 <VerticalProductCard
@@ -122,7 +122,7 @@ export const Shop = () => {
                   numberOfRatings={numberOfRatings}
                   offer={offer}
                   isWishlistItem={isProductInArray(wishlistItems, product)}
-                  // sale={sale}
+                  sale={sale}
                   handleAddToWishlist={() =>
                     dispatch({
                       type: 'ADD-OR-REMOVE-FROM-WISHLIST',

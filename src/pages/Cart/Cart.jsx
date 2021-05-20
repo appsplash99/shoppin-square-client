@@ -4,20 +4,49 @@ import {
   totalProductsInArray,
   totalProductPrice,
 } from '../../utils/array-functions';
-
 import './Cart.css';
-import { BtnInverted, Btn } from '../../components/morphine-ui';
+import {
+  BtnInverted,
+  Btn,
+  LoaderDonutSpinner,
+} from '../../components/morphine-ui';
+import { useEffect, useState } from 'react';
+import { CARTROUTE } from '../../utils/apiRoutes';
+import { loadProductsFromDB } from '../../utils/serverRequests';
 
 export const Cart = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     state: { cartItems },
     dispatch,
   } = useCartState();
 
+  useEffect(() => {
+    (async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await loadProductsFromDB(CARTROUTE);
+        dispatch({ type: 'LOAD-CART-ITEMS', payload: data });
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error);
+      }
+    })();
+    // }, [carItems, dispatch]);
+  }, []);
+
   return (
     <div className="cart-container">
       {/* <h1>Cart</h1> */}
       {/* <>{JSON.stringify(cartItems)}</> */}
+      <div
+        className="flex align-items--c justify-content--c"
+        style={{
+          height: 'calc(100vh - 8vh)',
+          display: isLoading && !cartItems.length > 0 ? 'flex' : 'none',
+        }}>
+        <LoaderDonutSpinner size="xxl" variant="primary" />
+      </div>
       {totalProductsInArray(cartItems) > 0 && (
         <div className="checkout-section flex flex-wrap--wrap gap">
           <div className="flex align-items--c justify-content--c flex-grow--3 my">

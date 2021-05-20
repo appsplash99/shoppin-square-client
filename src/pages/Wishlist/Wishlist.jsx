@@ -1,17 +1,43 @@
+import React, { useState } from 'react';
 import { useCartState } from '../../context/cart-context';
 import './Wishlist.css';
 import { totalProductsInArray } from '../../utils/array-functions';
-
-import { Btn } from '../../components/morphine-ui';
+import { Btn, LoaderDonutSpinner } from '../../components/morphine-ui';
+import { useEffect } from 'react';
+import { loadProductsFromDB } from '../../utils/serverRequests';
+import { WISHLISTROUTE } from '../../utils/apiRoutes';
 
 export const Wishlist = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     state: { wishlistItems },
     dispatch,
   } = useCartState();
 
+  useEffect(() => {
+    (async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await loadProductsFromDB(WISHLISTROUTE);
+        dispatch({ type: 'LOAD-WISHLIST-ITEMS', payload: data });
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error);
+      }
+    })();
+    // }, [wishlistItems, dispatch]);
+  }, []);
+
   return (
     <div className="wishlist-container">
+      <div
+        className="flex align-items--c justify-content--c"
+        style={{
+          height: 'calc(100vh - 8vh)',
+          display: isLoading && !wishlistItems.length > 0 ? 'flex' : 'none',
+        }}>
+        <LoaderDonutSpinner size="xxl" variant="primary" />
+      </div>
       {totalProductsInArray(wishlistItems) > 0 && (
         <div className="checkout-section flex flex-wrap--wrap gap">
           <div className="flex flex--column bg--secondary gap flex-grow--1 border-radius--xs ">

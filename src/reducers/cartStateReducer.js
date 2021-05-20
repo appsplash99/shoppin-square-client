@@ -12,12 +12,14 @@ export const shoppingProductsAction = {
 };
 
 export const cartActions = {
+  LOAD_CART_ITEMS: 'LOAD-CART-ITEMS',
   ADD_TO_CART: "ADD-TO-CART",
   REMOVE_FROM_CART: "REMOVE-FROM-CART",
   INCREMENT_PRODUCT_QTY_IN_CART: "INCREMENT-PRODUCT-QTY-IN-CART",
   DECREMENT_PRODUCT_QTY_IN_CART: "DECREMENT-PRODUCT-QTY-IN-CART"
 };
 export const wishlistActions = {
+  LOAD_WISHLIST_ITEMS: "LOAD-WISHLIST-ITEMS",
   ADD_OR_REMOVE_FROM_WISHLIST: "ADD-OR-REMOVE-FROM-WISHLIST",
   REMOVE_FROM_WISHLIST: "REMOVE-FROM-WISHLIST"
 };
@@ -36,6 +38,7 @@ export const filterActions = {
 
 export const cartStateReducer = (prevState, action) => {
   switch (action.type) {
+    /**PRODUCTS ACTIONS */
     case shoppingProductsAction.LOAD_PRODUCTS:
       console.log("products loaded");
       console.log(action.payload);
@@ -43,6 +46,7 @@ export const cartStateReducer = (prevState, action) => {
         ...prevState,
         shoppingItems: action.payload.products
       };
+
     case cartActions.ADD_TO_CART:
       console.log("ITEM Added to cart");
       // console.log(action.payload);
@@ -52,6 +56,15 @@ export const cartStateReducer = (prevState, action) => {
         cartItems: isProductInArray(prevState.cartItems, action.payload) ?
           incQtyForExistingProduct(prevState.cartItems, action.payload) :
           concatNewProduct(prevState.cartItems, action.payload)
+      };
+
+      /**CART ACTIONS */
+    case cartActions.LOAD_CART_ITEMS:
+      console.log("cartItems loaded");
+      console.log(action.payload);
+      return {
+        ...prevState,
+        cartItems: action.payload.cartItems
       };
     case cartActions.REMOVE_FROM_CART:
       console.log("ITEM removed from cart");
@@ -82,6 +95,14 @@ export const cartStateReducer = (prevState, action) => {
             action.payload
           )
       };
+      /**WISHLIST ACTIONS */
+    case wishlistActions.LOAD_WISHLIST_ITEMS:
+      console.log("wishlist Items loaded");
+      console.log(action.payload);
+      return {
+        ...prevState,
+        wishlistItems: action.payload.wishlistItems
+      };
     case wishlistActions.ADD_OR_REMOVE_FROM_WISHLIST:
       console.log("toggling is wishlisted flag");
       return {
@@ -105,6 +126,7 @@ export const cartStateReducer = (prevState, action) => {
           action.payload
         )
       };
+      /**SORT AND FILTER ACTIONS */
     case sortActions.SORT:
       return {
         ...prevState,

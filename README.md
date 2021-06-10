@@ -1,2 +1,2 @@
-# shoppin-server-client
+# shoppin-square-client
 A react ecommerce Client

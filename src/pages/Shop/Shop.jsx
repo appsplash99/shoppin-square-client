@@ -34,13 +34,14 @@ export const Shop = () => {
       try {
         setIsLoading(true);
         const { data } = await loadProductsFromDB(PRODUCTSROUTE);
+        // console.log('=========', response.status === 404 && 'access denied');
         dispatch({ type: 'LOAD-PRODUCTS', payload: data });
       } catch (error) {
         setIsLoading(false);
         console.log(error);
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   // return new data after sorting
   const getSortedData = (productList, sortBy) => {
@@ -101,7 +102,7 @@ export const Shop = () => {
               const {
                 // _id,
                 brandName,
-                image,
+                images,
                 description,
                 price,
                 discount,
@@ -113,7 +114,7 @@ export const Shop = () => {
               return (
                 <VerticalProductCard
                   name={brandName}
-                  image={image}
+                  image={images[0]}
                   description={description}
                   price={price}
                   mrp={Math.round((price * 100) / (100 - price))}

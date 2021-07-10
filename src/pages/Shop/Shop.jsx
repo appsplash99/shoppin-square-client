@@ -3,7 +3,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useCartState } from '../../context/cart-context';
 import { isProductInArray } from '../../utils/array-functions';
-import { PRODUCTSROUTE, WOMENS_PRODUCT_ROUTE } from '../../utils/apiRoutes';
+import { ALL_PRODUCTS } from '../../utils/apiRoutes';
 import { loadProductsFromDB } from '../../utils/serverRequests';
 import { NewSortAndFilter } from '../../components/NewSortAndFilter/NewSortAndFilter';
 import {
@@ -34,7 +34,7 @@ export const Shop = () => {
       try {
         setIsLoading(true);
         // const { data } = await loadProductsFromDB(PRODUCTSROUTE);
-        const { data } = await loadProductsFromDB(WOMENS_PRODUCT_ROUTE);
+        const { data } = await loadProductsFromDB(ALL_PRODUCTS);
         // console.log('=========', response.status === 404 && 'access denied');
         dispatch({ type: 'LOAD-PRODUCTS', payload: data });
       } catch (error) {
@@ -43,6 +43,39 @@ export const Shop = () => {
       }
     })();
   }, [dispatch]);
+
+  // return new data after sorting
+  const getSortedData = (productList, sortBy) => {
+    if (sortBy && sortBy === 'PRICE_LOW_TO_HIGH') {
+      console.log('array sorted from L to H');
+      return productList.sort((a, b) => a.price - b.price);
+    }
+    if (sortBy && sortBy === 'PRICE_HIGH_TO_LOW') {
+      console.log('array sorted from H to L');
+      return productList.sort((a, b) => b.price - a.price);
+    }
+    return productList;
+  };
+
+  function getFilteredData(
+    productList,
+    { showFastDeliveryOnly, showAllInventory }
+  ) {
+    return productList
+      .filter(({ fastDelivery }) =>
+        showFastDeliveryOnly ? fastDelivery : true
+      )
+      .filter(({ inStock }) => (showAllInventory ? true : inStock));
+    // .filter(({ price }) => {
+    //   return price <= value;
+    // });
+  }
+
+  const sortedProducts = getSortedData(shoppingItems, sortBy);
+  const filteredData = getFilteredData(sortedProducts, {
+    showFastDeliveryOnly,
+    showAllInventory,
+  });
 
   return (
     <div>
@@ -65,8 +98,8 @@ export const Shop = () => {
         />
         <main className="grid--gallery flex-grow--3">
           {shoppingItems &&
-            // filteredData.map((product) => {
-            shoppingItems.map((product) => {
+            filteredData.map((product) => {
+              // shoppingItems.map((product) => {
               const {
                 // _id,
                 brandName,

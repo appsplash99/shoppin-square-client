@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { SearchBar } from './SearchBar';
 import { NavLogo } from './NavLogo';
 import { UserMenu } from './UserMenu';
 
@@ -14,14 +13,30 @@ const OldNavbar = ({ showMobileNav, setShowMobileNav }) => {
         onClick={() => setShowMobileNav(!showMobileNav)}>
         <NavLogo />
       </li>
-      <li className="resp-nav__navbar--item2">
+      {/* <li className="resp-nav__navbar--item2">
         <SearchBar />
-      </li>
+      </li> */}
       <li className="resp-nav__navbar--item3">
         <UserMenu />
       </li>
       <li className="resp-nav__navbar--item4">
         <ul className="resp-nav__shopping-menu nav__list text--sm font-weight--600 gap--xxs">
+          <li>
+            <Link
+              to="/login"
+              className="nav__link text--primary bg--primary p--xxs text--light"
+              onClick={() => setShowMobileNav(!showMobileNav)}>
+              Login
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/signup"
+              className="nav__link text--primary bg--primary p--xxs text--light"
+              onClick={() => setShowMobileNav(!showMobileNav)}>
+              Signup
+            </Link>
+          </li>
           <li>
             <Link
               to="shop"
@@ -49,22 +64,6 @@ const OldNavbar = ({ showMobileNav, setShowMobileNav }) => {
               className="nav__link text--primary"
               onClick={() => setShowMobileNav(!showMobileNav)}>
               Women
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/#"
-              className="nav__link text--primary"
-              onClick={() => setShowMobileNav(!showMobileNav)}>
-              Kids
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/#"
-              className="nav__link text--primary"
-              onClick={() => setShowMobileNav(!showMobileNav)}>
-              Travel
             </Link>
           </li>
         </ul>

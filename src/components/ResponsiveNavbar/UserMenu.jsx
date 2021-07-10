@@ -39,7 +39,7 @@ const UserMenu = () => {
       <Link className="nav__link text--primary" to="cart">
         <DataBadgeIcon
           variant="circular"
-          data={cartItems.length}
+          data={cartItems ? cartItems.length : 0}
           icon={<GiShoppingBag />}
           iconStyleProp={{ backgroundColor: 'inherit' }}
           badgeDataStyleProp={{

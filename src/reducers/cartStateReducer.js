@@ -2,8 +2,8 @@ import {
   isProductInArray,
   concatNewProduct,
   removeExistingProductFromArray,
-  incQtyForExistingProduct,
-  decQtyForExistingProduct,
+  // incQtyForExistingProduct,
+  // decQtyForExistingProduct,
 } from '../utils/array-functions';
 
 export const shoppingProductsAction = {

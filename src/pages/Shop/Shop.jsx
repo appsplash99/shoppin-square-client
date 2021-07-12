@@ -22,14 +22,14 @@ export const Shop = () => {
   const [showFilterContainer, setShowFilterContainer] = useState(false);
   const {
     state: {
-      sortBy,
       toast,
       shoppingItems,
       cartItems,
       wishlistItems,
-      showFastDeliveryOnly,
-      showAllInventory,
       currentProductsApiRoute,
+      // sortBy,
+      // showFastDeliveryOnly,
+      // showAllInventory,
     },
     dispatch,
   } = useCartState();

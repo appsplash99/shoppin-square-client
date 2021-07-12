@@ -38,8 +38,7 @@ export const Signup = (props) => {
         data: { name, email, password },
       });
       alert('Signin Successful - Please Login');
-
-      // navigate('/login');
+      navigate('/login');
       /** Navigate to User Cart after successfull signup */
       // console.log(REGISTER_ROUTE);
       // console.log({ response }, null, 2);

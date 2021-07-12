@@ -1,4 +1,4 @@
-import { BtnIcon } from '../morphine-ui';
+import { BtnIcon } from 'morphine-ui';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { useCartState } from '../../context/cart-context';
 
@@ -11,9 +11,9 @@ export const NewFilterContainer = ({ handleCloseFilterContainer }) => {
     <div className="filter-container">
       <div className="flex flex--row-reverse p">
         <BtnIcon
-          btnSize="lg"
-          handleOnClickProp={handleCloseFilterContainer}
-          styleProp={{ position: 'absolute', top: 0, right: 0 }}>
+          size="lg"
+          onClick={handleCloseFilterContainer}
+          style={{ position: 'absolute', top: 0, right: 0 }}>
           <IoIosCloseCircle className="text--xl" />
         </BtnIcon>
         <div lassName="flex flex--column gap align-items--c justify-content--c">

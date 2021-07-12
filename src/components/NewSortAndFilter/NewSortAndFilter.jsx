@@ -1,6 +1,6 @@
 import { NewFilterContainer } from './NewFilterContainer';
 import { NewtSortContainer } from './NewSortContainer';
-import { Btn } from '../morphine-ui';
+import { Btn } from 'morphine-ui';
 import { IoIosArrowDown, IoIosArrowBack } from 'react-icons/io';
 import './NewSortAndFilter.css';
 
@@ -19,10 +19,10 @@ export const NewSortAndFilter = ({
   return (
     <div className="sort-and-filter-container">
       <Btn
-        btnSize="sm"
+        size="sm"
         variant="dark"
-        handleOnClickProp={handleShowSortContainer}
-        styleProp={{
+        onClick={handleShowSortContainer}
+        style={{
           width: '40%',
           display: 'flex',
           alignItems: 'center',
@@ -39,10 +39,10 @@ export const NewSortAndFilter = ({
         />
       )}
       <Btn
-        btnSize="sm"
+        size="sm"
         variant="dark"
-        handleOnClickProp={handleShowFilterContainer}
-        styleProp={{
+        onClick={handleShowFilterContainer}
+        style={{
           width: '40%',
           display: 'flex',
           alignItems: 'center',

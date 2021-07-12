@@ -32,7 +32,7 @@ export const Signup = (props) => {
     // Signup New User
     try {
       const { name, email, password } = values;
-      const response = await axios({
+      await axios({
         method: 'post',
         url: `${REGISTER_ROUTE}`,
         data: { name, email, password },

@@ -1,23 +1,26 @@
-import { ChangeProductQtyBtn } from '../../components/Buttons';
-import { useCartState } from '../../context/cart-context';
+import axios from 'axios';
+import './Cart.css';
 import {
   totalProductsInArray,
   totalProductPrice,
 } from '../../utils/array-functions';
-import './Cart.css';
 import {
-  BtnInverted,
-  Btn,
-  LoaderDonutSpinner,
-} from '../../components/morphine-ui';
+  productRemoveFromCart,
+  updateCartItemQtyInDb,
+} from '../../utils/newServerRequests';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { CARTROUTE } from '../../utils/apiRoutes';
-import { loadProductsFromDB } from '../../utils/serverRequests';
+import { BtnInverted, Btn, LoaderDonutSpinner } from 'morphine-ui';
+import { CART_ROUTE } from '../../utils/apiRoutes';
+import { Toast } from '../../components/Toast/Toast';
+import { useCartState } from '../../context/cart-context';
+import { getLocalCredentials } from '../../utils/localStorage';
+import { ChangeProductQtyBtn } from '../../components/';
 
 export const Cart = () => {
   const [isLoading, setIsLoading] = useState(false);
   const {
-    state: { cartItems },
+    state: { cartItems, toast },
     dispatch,
   } = useCartState();
 
@@ -25,109 +28,159 @@ export const Cart = () => {
     (async () => {
       try {
         setIsLoading(true);
-        const { data } = await loadProductsFromDB(CARTROUTE);
-        dispatch({ type: 'LOAD-CART-ITEMS', payload: data });
+        const { token, userId } = getLocalCredentials();
+        const newResp = await axios({
+          method: 'GET',
+          url: CART_ROUTE + `/${userId}`,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        });
+        // console.log(());
+        console.log(JSON.stringify(newResp, null, 2));
+        dispatch({
+          type: 'LOAD-CART-ITEMS',
+          payload: newResp.data.cart?.cartItems,
+        });
+        setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        console.log(error);
+        console.log(JSON.stringify(error, null, 2));
       }
     })();
-    // }, [carItems, dispatch]);
-  }, []);
+  }, [dispatch]);
+
+  // TODO: STYLE THE RETURNED COMPONENT
+  // - TO BE DISPLAYED WHEN CART IS EMPTY
+  if (cartItems && cartItems.length === 0 && !isLoading) {
+    return (
+      <div className="mt--lg bg--secondary pb--lg text--dark">
+        <div>Your Cart is Empty - Please add products</div>
+        <Link to="/shop">
+          <Btn variant="primary" shape="capsule" size="md">
+            Shop Products
+          </Btn>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="cart-container">
-      {/* <h1>Cart</h1> */}
-      {/* <>{JSON.stringify(cartItems)}</> */}
-      <div
-        className="flex align-items--c justify-content--c"
-        style={{
-          height: 'calc(100vh - 8vh)',
-          display: isLoading && !cartItems.length > 0 ? 'flex' : 'none',
-        }}>
-        <LoaderDonutSpinner size="xxl" variant="primary" />
-      </div>
-      {totalProductsInArray(cartItems) > 0 && (
-        <div className="checkout-section flex flex-wrap--wrap gap">
-          <div className="flex align-items--c justify-content--c flex-grow--3 my">
-            <div className="flex align-items--c justify-content--se flex-wrap--wrap gap">
-              <div className="text--xl font-weight--600">
-                Subtotal ({totalProductsInArray(cartItems)} items): ₹{' '}
-                {totalProductPrice(cartItems).toFixed(2)}
+      {!cartItems ? (
+        <div
+          className="flex align-items--c justify-content--c"
+          style={{
+            height: 'calc(100vh - 8vh)',
+            display: isLoading ? 'flex' : 'none',
+          }}>
+          <LoaderDonutSpinner size="xxl" variant="primary" />
+        </div>
+      ) : (
+        cartItems &&
+        totalProductsInArray(cartItems) > 0 && (
+          <div
+            className={`checkout-section flex flex--column flex-wrap--wrap gap ${
+              isLoading && 'display--hidden'
+            }`}>
+            <div className="flex align-items--c justify-content--c flex-grow--3 my">
+              <div className="flex align-items--c justify-content--se flex-wrap--wrap gap">
+                <div className="text--xl font-weight--600">
+                  Subtotal ({totalProductsInArray(cartItems)} items): ₹{' '}
+                  {totalProductPrice(cartItems).toFixed(2)}
+                </div>
+                <BtnInverted variant="primary" shape="capsule" sm="md">
+                  <div className="font-weight--500">Proceed to Checkout</div>
+                </BtnInverted>
               </div>
-              <BtnInverted variant="primary" shape="capsule" btnSize="md">
-                <div className="font-weight--500">Proceed to Checkout</div>
-              </BtnInverted>
             </div>
-          </div>
-          <div className="flex flex--column bg--secondary gap flex-grow--1 border-radius--xs ">
-            {cartItems.length > 0 &&
-              cartItems.map(
-                ({
-                  _id,
-                  brandName,
-                  image,
-                  description,
-                  price,
-                  discount,
-                  qty,
-                }) => {
+            <div className="flex flex--column gap border-radius--xs">
+              {cartItems &&
+                cartItems.length > 0 &&
+                cartItems.map(({ _id, quantity: qty, product }) => {
                   return (
-                    <div key={_id}>
+                    <div
+                      key={_id}
+                      className="bg--secondary"
+                      style={{
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                        maxWidth: '28rem',
+                      }}>
                       <div className="product-cardPosition flex gap">
                         <img
                           className="product__image cart-product-image"
-                          src={image}
+                          src={product.images[0]}
                           alt=""
+                          style={{ height: '50%', width: '10rem' }}
                         />
-                        <div className="product__content flex flex--column gap--xxs p--xxs">
+                        <div className="product__content flex flex--column gap--xxs p--xxs justify-content--c">
                           <div className="flex justify-content--sb">
-                            <div className="text--lg">
+                            <div className="text--md">
                               <div className="font-weight--600 flex">
-                                {brandName}
-                              </div>
-                              <div className="text--grey text--md">
-                                {description}
+                                {product.brandName}
                               </div>
                             </div>
                           </div>
-                          <div className="flex flex-wrap--wrap align-items--c gap--xxs text--md">
-                            <span className="font-weight--600">₹ {price}</span>
+                          <div className="flex flex-wrap--wrap align-items--c gap--xxs">
+                            <span className="font-weight--600">
+                              ₹ {product.price}
+                            </span>
                             <span className="text--strikethrough text--md">
-                              ₹ {Math.round((price * 100) / (100 - price))}
+                              {`₹ ${Math.round(
+                                (product.price * 100) / (100 - product.price)
+                              )}`}
                             </span>
                             <span className="text--themeRed font-weight--600 border-radius--xs">
-                              ({discount} % OFF)
+                              ({product.discount} % OFF)
                             </span>
                           </div>
                           <div className="flex align-items--c flex-wrap--wrap">
                             <ChangeProductQtyBtn
+                              handleRemoveCartItem={() => {
+                                const { token, userId } = getLocalCredentials();
+                                productRemoveFromCart(
+                                  dispatch,
+                                  token,
+                                  userId,
+                                  product._id
+                                );
+                              }}
                               handleIncrementQty={() => {
-                                dispatch({
-                                  type: 'INCREMENT-PRODUCT-QTY-IN-CART',
-                                  payload: { _id, qty },
-                                });
+                                const { token, userId } = getLocalCredentials();
+                                updateCartItemQtyInDb(
+                                  Number(qty + 1),
+                                  dispatch,
+                                  token,
+                                  userId,
+                                  product._id
+                                );
                               }}
                               handleDecrementQty={() => {
-                                dispatch({
-                                  type: 'DECREMENT-PRODUCT-QTY-IN-CART',
-                                  payload: { _id, qty },
-                                });
+                                const { token, userId } = getLocalCredentials();
+                                updateCartItemQtyInDb(
+                                  Number(qty - 1),
+                                  dispatch,
+                                  token,
+                                  userId,
+                                  product._id
+                                );
                               }}
                               qtyValue={qty}
                             />
                             <Btn
-                              styleProp={{
-                                maxWidth: 'calc(5*var(--space-lg))',
-                              }}
                               variant="error"
-                              btnSize="sm"
-                              handleOnClickProp={() =>
-                                dispatch({
-                                  type: 'REMOVE-FROM-CART',
-                                  payload: { _id },
-                                })
-                              }>
+                              size="xxs"
+                              onClick={() => {
+                                const { token, userId } = getLocalCredentials();
+                                productRemoveFromCart(
+                                  dispatch,
+                                  token,
+                                  userId,
+                                  product._id
+                                );
+                              }}>
                               Remove from Cart
                             </Btn>
                           </div>
@@ -135,11 +188,12 @@ export const Cart = () => {
                       </div>
                     </div>
                   );
-                }
-              )}
+                })}
+            </div>
           </div>
-        </div>
+        )
       )}
+      {toast.message && <Toast message={toast.message} />}
     </div>
   );
 };

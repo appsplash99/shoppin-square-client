@@ -1,13 +1,12 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { FaStar } from 'react-icons/fa';
+import axios from 'axios';
 import './ProductDetail.css';
-import { useParams } from 'react-router-dom';
-
-import ReactImageMagnify from 'react-image-magnify';
+import { FaStar } from 'react-icons/fa';
 import { BiRupee } from 'react-icons/bi';
-import { LoaderDonutSpinner } from '../../components';
+import { useParams } from 'react-router-dom';
+import ReactImageMagnify from 'react-image-magnify';
 import { ALL_PRODUCTS } from '../../utils/apiRoutes';
+import { LoaderDonutSpinner } from 'morphine-ui';
 
 export const ProductDetail = () => {
   const [isLoading, setIsLoading] = useState(false);

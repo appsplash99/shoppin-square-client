@@ -5,7 +5,7 @@ export const getLocalCredentials = () => {
   const userEmail = JSON.parse(localStorage.getItem('logincredentials'))
     ?.userEmail;
 
-  console.log({ 'consumed local token': token });
+  console.log({ 'consumed local token': token, userId, userEmail });
   return { userId, token, userEmail };
 };
 
@@ -18,9 +18,7 @@ export const setLocalCredentials = (token, userId, userEmail) => {
   );
 };
 
-// TODO: Use this when user logs-out
 // remove user credentials from localstorage
-export const removeLocalCredentials = (token, userId, userEmail) => {
-  console.log({ 'removed token': token });
+export const removeLocalCredentials = () => {
   return localStorage.removeItem('logincredentials');
 };

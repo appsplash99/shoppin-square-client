@@ -89,27 +89,6 @@ export const cartStateReducer = (prevState, action) => {
           action.payload
         ),
       };
-    // case cartActions.INCREMENT_PRODUCT_QTY_IN_CART:
-    //   console.log('Increased Qty');
-    //   return {
-    //     ...prevState,
-    //     cartItems: incQtyForExistingProduct(
-    //       prevState.cartItems,
-    //       action.payload
-    //     ),
-    //   };
-    // case cartActions.DECREMENT_PRODUCT_QTY_IN_CART:
-    //   console.log('Decreased Qty');
-    //   return {
-    //     ...prevState,
-    //     cartItems:
-    //       action.payload.qty > 1
-    //         ? decQtyForExistingProduct(prevState.cartItems, action.payload)
-    //         : removeExistingProductFromArray(
-    //             prevState.cartItems,
-    //             action.payload
-    //           ),
-    //   };
 
     /**WISHLIST ACTIONS */
     case wishlistActions.LOAD_WISHLIST_ITEMS:

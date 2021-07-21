@@ -9,6 +9,10 @@ export const NewSortAndFilter = ({
   setShowFilterContainer,
   showSortContainer,
   setShowSortContainer,
+  setShowProductsPerPage,
+  showProductsPerPage,
+  numOfProducts,
+  setNumOfProducts,
 }) => {
   const handleShowSortContainer = () => {
     setShowSortContainer(!showSortContainer);
@@ -16,20 +20,38 @@ export const NewSortAndFilter = ({
   const handleShowFilterContainer = () => {
     setShowFilterContainer(!showFilterContainer);
   };
+  const handleShowPagesDropDown = () => {
+    setShowProductsPerPage(!showProductsPerPage);
+  };
+
   return (
     <div className="sort-and-filter-container">
       <Btn
         size="sm"
+        variant="primary"
+        onClick={handleShowPagesDropDown}
+        className="flex align-items--c justify-content--sb gap p--xs--sm"
+        style={{ width: '100%' }}>
+        <div className="text--sm">Products</div>
+        <select
+          className="text--lg px--sm"
+          value={numOfProducts}
+          onChange={(e) => {
+            // TODO: ADD DISPATCH HERE
+            setNumOfProducts(Number(e.target.value));
+          }}>
+          <option value="7">7</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+        </select>
+      </Btn>
+      <Btn
+        size="sm"
         variant="dark"
         onClick={handleShowSortContainer}
-        style={{
-          width: '40%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 'var(--space-sm)',
-          padding: 'var(--space-xxs) var(--space-xxxs)',
-        }}>
+        className="flex align-items--c justify-content--sb p--xs--sm"
+        style={{ width: '100%' }}>
         <div className="text--sm">Sort</div>
         {showSortContainer ? <IoIosArrowDown /> : <IoIosArrowBack />}
       </Btn>
@@ -42,14 +64,8 @@ export const NewSortAndFilter = ({
         size="sm"
         variant="dark"
         onClick={handleShowFilterContainer}
-        style={{
-          width: '40%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 'var(--space-sm)',
-          padding: 'var(--space-xxs) var(--space-xxxs)',
-        }}>
+        className="flex align-items--c justify-content--sb p--xs--sm"
+        style={{ width: '100%' }}>
         <div className="text--sm">Filter</div>
         {showFilterContainer ? <IoIosArrowDown /> : <IoIosArrowBack />}
       </Btn>

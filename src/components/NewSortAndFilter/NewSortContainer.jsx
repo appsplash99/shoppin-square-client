@@ -17,14 +17,14 @@ export const NewtSortContainer = ({ handleCloseSortContainer }) => {
           style={{ position: 'absolute', top: 0, right: 0 }}>
           <IoIosCloseCircle className="text--xl" />
         </BtnIcon>
-        <div lassName="flex flex--column gap align-items--c justify-content--c">
+        <div className="flex flex--column gap--sm align-items--fs justify-content--c">
           {/* PRODUCTS SORTER */}
           <div>
             <label className="text--sm">
               <input
                 type="radio"
                 name="sort"
-                className="m--xxs"
+                className="mx--sm radio-btn"
                 onChange={() =>
                   sorterDispatch({ type: 'SORT', payload: 'PRICE_LOW_TO_HIGH' })
                 }
@@ -38,51 +38,54 @@ export const NewtSortContainer = ({ handleCloseSortContainer }) => {
               <input
                 type="radio"
                 name="sort"
-                className="m--xxs"
+                className="mx--sm radio-btn"
                 onChange={() =>
-                  sorterDispatch({ type: 'SORT', payload: 'PRICE_LOW_TO_HIGH' })
+                  sorterDispatch({
+                    type: 'SORT',
+                    payload: 'PRICE_HIGHT_TO_LOW',
+                  })
                 }
-                checked={sortBy && sortBy === 'PRICE_LOW_TO_HIGH'}
+                checked={sortBy && sortBy === 'PRICE_HIGHT_TO_LOW'}
               />
-              Price (Lowest First)
+              Price (Highest First)
             </label>
           </div>
           {/* Discount SORTER */}
           <div>
             <label className="text--sm">
-              <input type="radio" name="sort" className="m--xxs" />
+              <input type="radio" name="sort" className="mx--sm radio-btn" />
               Discount (Lowest First)
             </label>
           </div>
           <div>
             <label className="text--sm">
-              <input type="radio" name="sort" className="m--xxs" />
+              <input type="radio" name="sort" className="mx--sm radio-btn" />
               Discount (Highest First)
             </label>
           </div>
           {/* Ratings SORTER */}
           <div>
             <label className="text--sm">
-              <input type="radio" name="sort" className="m--xxs" />
+              <input type="radio" name="sort" className="mx--sm radio-btn" />
               Ratings (Lowest First)
             </label>
           </div>
           <div>
             <label className="text--sm">
-              <input type="radio" name="sort" className="m--xxs" />
+              <input type="radio" name="sort" className="mx--sm radio-btn" />
               Ratings (Highest First)
             </label>
           </div>
           {/* Number of Ratings SORTER */}
           <div>
             <label className="text--sm">
-              <input type="radio" name="sort" className="m--xxs" />
+              <input type="radio" name="sort" className="mx--sm radio-btn" />
               Least Number of Ratings (Lowest First)
             </label>
           </div>
           <div>
             <label className="text--sm">
-              <input type="radio" name="sort" className="m--xxs" />
+              <input type="radio" name="sort" className="mx--sm radio-btn" />
               Most Number of Ratings (Highest First)
             </label>
           </div>

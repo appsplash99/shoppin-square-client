@@ -23,9 +23,9 @@ const UserMenu = () => {
             shape="capsule"
             variant="primary"
             size="sm"
-            className="flex align-items--c gap--sm"
+            className="flex align-items--c gap--xs"
             style={{
-              padding: 'var(--space-xs) var(--space-md)',
+              padding: 'var(--space-xs) var(--space-sm)',
             }}>
             <RiLoginCircleFill className="text--md" />
             Login
@@ -36,12 +36,12 @@ const UserMenu = () => {
             shape="capsule"
             variant="primary"
             size="sm"
-            className="flex align-items--c gap--sm"
+            className="flex align-items--c gap--xs"
             style={{
-              padding: 'var(--space-xs) var(--space-md)',
+              padding: 'var(--space-xs) var(--space-sm)',
             }}>
             <FaUserPlus className="text--md" />
-            Sign Up
+            Signup
           </Btn>
         </Link>
       </div>
@@ -76,7 +76,8 @@ const UserMenu = () => {
             color: 'var(--light)',
           }}></DataBadgeIcon>
       </Link>
-      <Link className="nav__link text--primary" to="user-profile">
+      {/* TODO: ADD USER PROFILE */}
+      {/* <Link className="nav__link text--primary" to="user-profile">
         <DataBadgeIcon
           variant="circular"
           icon={<FcBusinesswoman className="text--xl" />}
@@ -87,7 +88,7 @@ const UserMenu = () => {
             margin: 0,
             color: 'var(--light)',
           }}></DataBadgeIcon>
-      </Link>
+      </Link> */}
       <Link className="nav__link text--primary" to="/">
         <DataBadgeIcon
           variant="circular"

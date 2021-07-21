@@ -4,13 +4,14 @@ import {
   productAddToCart,
   productAddToWishlist,
 } from '../../utils/newServerRequests';
+import { ImEye } from 'react-icons/im';
 import { FaShoppingCart } from 'react-icons/fa';
 import { hideToast } from '../../utils/hideToast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartState } from '../../context/cart-context';
 import { Toast, NewSortAndFilter } from '../../components';
-import { isProductInArray } from '../../utils/array-functions';
 import { getLocalCredentials } from '../../utils/localStorage';
+import { isProductInArray } from '../../utils/array-functions';
 import { loadProductsFromDB } from '../../utils/newServerRequests';
 import { Btn, ProductCardVertical, LoaderDonutSpinner } from 'morphine-ui';
 
@@ -20,6 +21,9 @@ export const Shop = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showSortContainer, setShowSortContainer] = useState(false);
   const [showFilterContainer, setShowFilterContainer] = useState(false);
+  const [showProductsPerPage, setShowProductsPerPage] = useState(false);
+  const [numOfProducts, setNumOfProducts] = useState(7);
+
   const {
     state: {
       toast,
@@ -92,12 +96,16 @@ export const Shop = () => {
       </div>
       <div
         className="shop-container"
-        style={{ display: !shoppingItems ? 'none' : '' }}>
+        style={{ display: !shoppingItems ? 'none' : '', margin: '0 auto' }}>
         <NewSortAndFilter
           showFilterContainer={showFilterContainer}
           setShowFilterContainer={setShowFilterContainer}
           showSortContainer={showSortContainer}
           setShowSortContainer={setShowSortContainer}
+          showProductsPerPage={showProductsPerPage}
+          setShowProductsPerPage={setShowProductsPerPage}
+          numOfProducts={numOfProducts}
+          setNumOfProducts={setNumOfProducts}
         />
         {toast.message && <Toast message={toast.message} />}
         <main className="grid--gallery flex-grow--3">
@@ -117,10 +125,7 @@ export const Shop = () => {
                 sale,
               } = product;
               return (
-                <Link
-                  key={product._id}
-                  className="cursor--pointer"
-                  to={`/product/${product._id}`}>
+                <div key={product._id}>
                   <ProductCardVertical
                     name={brandName}
                     image={images[0]}
@@ -177,21 +182,40 @@ export const Shop = () => {
                       }
                     }}
                     goToCartBtn={
-                      <Link to="/cart">
-                        <Btn
-                          size="sm"
-                          shape="square"
-                          variant="primary"
-                          style={{ width: '100%', fontWeight: '500' }}>
-                          <div className="flex align-items--c justify-content--c gap">
-                            <FaShoppingCart className="text--md" />
-                            Go To Cart
-                          </div>
-                        </Btn>
-                      </Link>
+                      <div className="flex gap--xxs align-items--c justify-content--sb">
+                        <Link to="/cart">
+                          <Btn
+                            size="sm"
+                            variant="primary"
+                            shape="square"
+                            style={{
+                              width: '100%',
+                              fontWeight: '500',
+                            }}>
+                            <div className="flex align-items--c justify-content--c gap">
+                              <FaShoppingCart className="text--md" />
+                              Go To Cart
+                            </div>
+                          </Btn>
+                        </Link>
+                        <Link to={`/product/${product._id}`}>
+                          <Btn
+                            size="sm"
+                            variant="primary"
+                            shape="square"
+                            style={{
+                              width: '100%',
+                              fontWeight: '500',
+                            }}>
+                            <div className="flex align-items--c justify-content--c gap">
+                              <ImEye className="text--md" />
+                            </div>
+                          </Btn>
+                        </Link>
+                      </div>
                     }
                   />
-                </Link>
+                </div>
               );
             })}
         </main>

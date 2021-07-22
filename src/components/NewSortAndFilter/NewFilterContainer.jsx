@@ -8,13 +8,23 @@ export const NewFilterContainer = ({ handleCloseFilterContainer }) => {
     dispatch: filterDispatch,
   } = useCartState();
   return (
-    <div className="filter-container ">
+    // <div className="filter-container" style={{}}>
+    <div
+      style={{
+        position: 'absolute',
+        zIndex: 'var(--zIndex--overlay)',
+        minWidth: '15rem',
+        backgroundColor: 'var(--themeSecondary)',
+        marginTop: 'var(--space-xxs)',
+        borderRadius: 'var(--space-sm)',
+        left: '-65%',
+      }}>
       <div className="flex p">
         <BtnIcon
           size="lg"
           onClick={handleCloseFilterContainer}
           style={{ position: 'absolute', top: 0, right: 0 }}>
-          <IoIosCloseCircle className="text--xl" />
+          <IoIosCloseCircle className="text--xl cursor--pointer" />
         </BtnIcon>
         <div className="flex flex--column gap--sm align-items--fs justify-content--fs">
           <div>

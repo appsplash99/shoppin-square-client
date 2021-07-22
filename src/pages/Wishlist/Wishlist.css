@@ -1,0 +1,19 @@
+.wishlist-container {
+  margin: 0 var(--space-md);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-overflow: clip;
+}
+
+.wishlist-product-image {
+  height: calc(6 * var(--space-lg));
+  /* height: auto; */
+}
+
+@media screen and (min-width: 1024px) {
+  .wishlist-container {
+    width: 70%;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,12 @@
+.shop-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: center;
+}
+.grid--gallery {
+  flex: 3; /* For sortAndFilter to remain at flex: 1*/
+  display: grid;
+  grid-gap: var(--space-sm);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}

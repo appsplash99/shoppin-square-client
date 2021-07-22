@@ -1,0 +1,24 @@
+.cart-container {
+  margin: 0 var(--space-md);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-overflow: clip;
+}
+.cart-product-image {
+  height: calc(6 * var(--space-lg));
+  /* height: auto; */
+}
+.checkout-section {
+  min-height: calc(5 * var(--space-lg));
+}
+
+@media screen and (min-width: 1024px) {
+  .cart-container {
+    width: 70%;
+    margin: 0 auto;
+  }
+  .checkout-section {
+    min-height: auto;
+  }
+}

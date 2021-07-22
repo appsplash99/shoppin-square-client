@@ -8,7 +8,16 @@ import { Routes, Route } from 'react-router-dom';
 import { useCartState } from './context/cart-context';
 import { getLocalCredentials } from './utils/localStorage';
 import { UserProfile } from './pages/UserProfile/UserProfile';
-import { Cart, Shop, Wishlist, Login, Signup, ProductDetail } from './pages';
+import {
+  Cart,
+  Shop,
+  Wishlist,
+  Login,
+  Signup,
+  ProductDetail,
+  Home,
+} from './pages';
+import { ToastContainer } from 'react-toastify';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -64,7 +73,7 @@ export default function App() {
             : 'overflow--auto overflow--X--hidden'
         }`}>
         <Routes>
-          <Route path="/" element={<>Welcome back to Shoppin Square!</>} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/shop" element={<Shop />} />
@@ -82,6 +91,17 @@ export default function App() {
         </Routes>
         {/* <p>FROM APP.js</p> */}
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

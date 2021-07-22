@@ -83,7 +83,7 @@ export const Wishlist = () => {
                     <div className="product-cardPosition flex gap">
                       <img
                         className="product__image wishlist-product-image"
-                        src={product.images[0]}
+                        src={product && product.images[0]}
                         alt=""
                         style={{ height: '50%', width: '10rem' }}
                       />

@@ -1,12 +1,59 @@
+/* TODO: MIGHT NEED TO REMOVE */
+
 .shop-container {
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* gap: var(--space-md); */
+  /* justify-content: center; */
+}
+/* .grid--gallery {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-md);
+  align-items: center;
   justify-content: center;
+  gap: 0.75rem;
+} */
+
+/*  */
+.pagination {
+  /* margin: 15px auto; */
+  margin: 1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  list-style: none;
+  outline: none;
 }
-.grid--gallery {
-  flex: 3; /* For sortAndFilter to remain at flex: 1*/
-  display: grid;
-  grid-gap: var(--space-sm);
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+.pagination > .active > a {
+  background-color: var(--themePrimary);
+  border-color: var(--themePrimary);
+  color: #fff;
+}
+.pagination > li > a {
+  border: 3px solid var(--themePrimary);
+  border-radius: var(--space-xxs);
+  padding: 5px 10px;
+  outline: none;
+  cursor: pointer;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background-color: var(--themePrimary);
+  border-color: var(--themePrimary);
+  outline: none;
+}
+.pagination > li > a,
+.pagination > li > span {
+  color: var(--themePrimary);
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span,
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-radius: unset;
 }

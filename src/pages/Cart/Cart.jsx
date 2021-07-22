@@ -10,7 +10,7 @@ import {
 } from '../../utils/newServerRequests';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { BtnInverted, Btn, LoaderDonutSpinner } from 'morphine-ui';
+import { Btn, LoaderDonutSpinner } from 'morphine-ui';
 import { CART_ROUTE } from '../../utils/apiRoutes';
 import { Toast } from '../../components/Toast/Toast';
 import { useCartState } from '../../context/cart-context';
@@ -90,9 +90,9 @@ export const Cart = () => {
                   Subtotal ({totalProductsInArray(cartItems)} items): ₹{' '}
                   {totalProductPrice(cartItems).toFixed(2)}
                 </div>
-                <BtnInverted variant="primary" shape="capsule" sm="md">
+                {/* <BtnInverted variant="primary" shape="capsule" sm="md">
                   <div className="font-weight--500">Proceed to Checkout</div>
-                </BtnInverted>
+                </BtnInverted> */}
               </div>
             </div>
             <div className="flex flex--column gap border-radius--xs">

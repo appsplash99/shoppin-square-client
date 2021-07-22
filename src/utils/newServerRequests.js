@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { CART_ROUTE, BASE_URL, WISHLIST_ROUTE } from './apiRoutes';
 import { isProductInArray } from './array-functions';
-import { hideToast } from './hideToast';
 import { removeLocalCredentials } from './localStorage';
+import { toast } from 'react-toastify';
 
 export const loadProductsFromDB = async (url, token) => {
   const res = await axios({
@@ -13,7 +13,6 @@ export const loadProductsFromDB = async (url, token) => {
       Authorization: token,
     },
   });
-
   if (res.status === 200 || res.status === 201) {
     return res;
   } else {
@@ -29,26 +28,24 @@ export const productAddToCart = async (
   productId
 ) => {
   e.preventDefault();
-  dispatch({ type: 'TOGGLE_TOAST', payload: 'adding to cart...', value: true });
+  toast.info('Adding to cart...');
   try {
     const { data } = await axios({
       method: 'POST',
       url: `${BASE_URL}/cart/${userId}/${productId}`,
       headers: { authorization: token },
     });
-    console.log(JSON.stringify(data, null, 2));
+    // console.log(JSON.stringify(data, null, 2));
     if (data.success) {
       dispatch({
         type: 'LOAD-CART-ITEMS',
         payload: data.latestCart.cartItems,
       });
-      dispatch({ type: 'TOGGLE_TOAST', payload: '1 item added to cart' });
-      hideToast(dispatch);
+      toast.success('Product Added to cart');
     }
   } catch (error) {
     console.error(error);
-    dispatch({ type: 'TOGGLE_TOAST', payload: 'Cart Updation failed' });
-    hideToast(dispatch);
+    toast.error('Failed to Update Cart');
   }
 };
 
@@ -58,11 +55,7 @@ export const productRemoveFromCart = async (
   userId,
   productId
 ) => {
-  dispatch({
-    type: 'TOGGLE_TOAST',
-    payload: 'removing from cart...',
-    value: true,
-  });
+  toast.info('Removing from cart...');
   try {
     const {
       data: { success, latestCart },
@@ -76,16 +69,11 @@ export const productRemoveFromCart = async (
         type: 'LOAD-CART-ITEMS',
         payload: latestCart?.cartItems,
       });
-      dispatch({
-        type: 'TOGGLE_TOAST',
-        payload: '1 item removed from cart',
-      });
-      hideToast(dispatch);
+      toast.success('one Item removed from cart...');
     }
   } catch (error) {
     console.error(error);
-    dispatch({ type: 'TOGGLE_TOAST', payload: 'Cart Updation failed' });
-    hideToast(dispatch);
+    toast.error('Cart Updation failed');
   }
 };
 
@@ -95,11 +83,7 @@ export const productRemoveFromWishlist = async (
   userId,
   productId
 ) => {
-  dispatch({
-    type: 'TOGGLE_TOAST',
-    payload: 'removing from wishlist...',
-    value: true,
-  });
+  toast.info('removing from wishlist...');
   try {
     const { data } = await axios({
       method: 'DELETE',
@@ -111,16 +95,12 @@ export const productRemoveFromWishlist = async (
         type: 'LOAD-WISHLIST-ITEMS',
         payload: data.latestWishlist.wishlistItems,
       });
-      dispatch({
-        type: 'TOGGLE_TOAST',
-        payload: '1 item removed from wishlist',
-      });
-      hideToast(dispatch);
+
+      toast.success('one item removed from wishlist');
     }
   } catch (error) {
     console.error({ error });
-    dispatch({ type: 'TOGGLE_TOAST', payload: 'Cart Updation failed' });
-    hideToast(dispatch);
+    toast.error('Cart Updation failed');
   }
 };
 
@@ -130,11 +110,7 @@ export const productAddToWishlist = async (
   userId,
   productId
 ) => {
-  dispatch({
-    type: 'TOGGLE_TOAST',
-    payload: 'adding to wishlist...',
-    value: true,
-  });
+  toast.info('adding to wishlist...');
   try {
     const { data } = await axios({
       method: 'POST',
@@ -146,16 +122,11 @@ export const productAddToWishlist = async (
         type: 'LOAD-WISHLIST-ITEMS',
         payload: data.latestWishlist.wishlistItems,
       });
-      dispatch({
-        type: 'TOGGLE_TOAST',
-        payload: '1 item added to wishlist',
-      });
-      hideToast(dispatch);
+      toast.success('1 item added to wishlist');
     }
   } catch (error) {
     console.error({ error });
-    dispatch({ type: 'TOGGLE_TOAST', payload: 'Cart Updation failed' });
-    hideToast(dispatch);
+    toast.error('Wishlist Updation failed');
   }
 };
 
@@ -167,8 +138,6 @@ export const wishlistManipulation = async (
   productId
 ) => {
   if (!token) {
-    dispatch({ type: 'TOGGLE_TOAST', payload: 'Login Toast' });
-    hideToast(dispatch, 3000);
   } else {
     if (isProductInArray(state.wishlist, { _id: productId })) {
       productRemoveFromWishlist(dispatch, token, userId, productId);
@@ -188,20 +157,19 @@ export const updateCartItemQtyInDb = async (
   try {
     const {
       data: { success, latestCartItems },
-      data,
+      // data,
     } = await axios({
       method: 'PATCH',
       url: `${CART_ROUTE}/${userId}/${productId}`,
       data: { quantity: quantity },
       headers: { authorization: token },
     });
-    console.log(JSON.stringify(data, null, 2));
+    // console.log(JSON.stringify(data, null, 2));
     if (success)
       dispatch({ type: 'LOAD-CART-ITEMS', payload: latestCartItems.cartItems });
   } catch (error) {
     console.error({ error });
-    dispatch({ type: 'TOGGLE_TOAST', payload: 'Cart Updation failed' });
-    hideToast(dispatch);
+    toast.error('Cart Updation failed');
   }
 };
 

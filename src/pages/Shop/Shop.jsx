@@ -6,109 +6,137 @@ import {
 } from '../../utils/newServerRequests';
 import { ImEye } from 'react-icons/im';
 import { FaShoppingCart } from 'react-icons/fa';
-import { hideToast } from '../../utils/hideToast';
+// import { hideToast } from '../../utils/hideToast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartState } from '../../context/cart-context';
-import { Toast, NewSortAndFilter } from '../../components';
+// TODO: REPLACE TOAST BY REACT TOASTIFY
+// import { Toast } from '../../components';
+import { Sort } from '../../components/Sort/Sort';
+import { Filter } from '../../components/Filter/Filter';
 import { getLocalCredentials } from '../../utils/localStorage';
 import { isProductInArray } from '../../utils/array-functions';
 import { loadProductsFromDB } from '../../utils/newServerRequests';
 import { Btn, ProductCardVertical, LoaderDonutSpinner } from 'morphine-ui';
+import ReactPaginate from 'react-paginate';
+import { ALL_PRODUCTS } from '../../utils/apiRoutes';
 
 export const Shop = () => {
   const navigate = useNavigate();
   const { token, userId } = getLocalCredentials();
   const [isLoading, setIsLoading] = useState(false);
-  const [showSortContainer, setShowSortContainer] = useState(false);
-  const [showFilterContainer, setShowFilterContainer] = useState(false);
   const [showProductsPerPage, setShowProductsPerPage] = useState(false);
-  const [numOfProducts, setNumOfProducts] = useState(7);
+  const [numOfProducts, setNumOfProducts] = useState(0);
 
   const {
     state: {
-      toast,
+      // toast,
+      // showLoader,
+      // cartItems,
       shoppingItems,
-      cartItems,
       wishlistItems,
       currentProductsApiRoute,
+      pagination: { totalPages },
       // sortBy,
       // showFastDeliveryOnly,
       // showAllInventory,
     },
+    state,
     dispatch,
   } = useCartState();
+
+  // pagination states
+  // const [pageCount, setPageCount] = useState(0);
+
+  const handlePageClick = async (e) => {
+    setIsLoading(true);
+    // dispatch({ type: 'SHOW_LOADER' });
+    const selectedPage = e.selected;
+    // setOffset(selectedPage + 1);
+
+    let url = `${currentProductsApiRoute}&page=${selectedPage + 1}&limit=5`;
+
+    if (currentProductsApiRoute === ALL_PRODUCTS) {
+      url = `${currentProductsApiRoute}?page=${selectedPage + 1}&limit=5`;
+    }
+    // handle products of next page
+
+    const { data } = await loadProductsFromDB(url);
+    dispatch({ type: 'LOAD-PRODUCTS', payload: data });
+    setIsLoading(false);
+    // dispatch({ type: 'HIDE_LOADER' });
+  };
 
   useEffect(() => {
     (async () => {
       try {
         setIsLoading(true);
+        // dispatch({ type: 'SHOW_LOADER' });
         const { data } = await loadProductsFromDB(currentProductsApiRoute);
         dispatch({ type: 'LOAD-PRODUCTS', payload: data });
+        // setPageCount(data.totalPages);
+        setIsLoading(false);
+        // dispatch({ type: 'HIDE_LOADER' });
+        //
       } catch (error) {
         setIsLoading(false);
+        // dispatch({ type: 'HIDE_LOADER' });
         console.log(error);
       }
     })();
   }, [dispatch, currentProductsApiRoute]);
 
-  // return new data after sorting
-  // const getSortedData = (productList, sortBy) => {
-  //   if (sortBy && sortBy === 'PRICE_LOW_TO_HIGH') {
-  //     console.log('array sorted from L to H');
-  //     return productList.sort((a, b) => a.price - b.price);
-  //   }
-  //   if (sortBy && sortBy === 'PRICE_HIGH_TO_LOW') {
-  //     console.log('array sorted from H to L');
-  //     return productList.sort((a, b) => b.price - a.price);
-  //   }
-  //   return productList;
-  // };
-
-  // function getFilteredData(
-  //   productList,
-  //   { showFastDeliveryOnly, showAllInventory }
-  // ) {
-  //   return productList
-  //     .filter(({ fastDelivery }) =>
-  //       showFastDeliveryOnly ? fastDelivery : true
-  //     )
-  //     .filter(({ inStock }) => (showAllInventory ? true : inStock));
-  //   // .filter(({ price }) => {
-  //   //   return price <= value;
-  //   // });
-  // }
-
-  // const sortedProducts = getSortedData(shoppingItems, sortBy);
-  // const filteredData = getFilteredData(sortedProducts, {
-  //   showFastDeliveryOnly,
-  //   showAllInventory,
-  // });
+  if (isLoading && !shoppingItems.length > 0) {
+    // if (showLoader) {
+    return (
+      <div
+        className="flex align-items--c justify-content--c"
+        style={{
+          height: 'calc(100vh - 8vh)',
+          display: 'flex',
+        }}>
+        <LoaderDonutSpinner size="xxl" variant="primary" />
+      </div>
+    );
+  }
 
   return (
     <div>
-      <div
+      {/* <div
         className="flex align-items--c justify-content--c"
         style={{
           height: 'calc(100vh - 8vh)',
           display: isLoading && !shoppingItems.length > 0 ? 'flex' : 'none',
         }}>
         <LoaderDonutSpinner size="xxl" variant="primary" />
-      </div>
+      </div> */}
       <div
-        className="shop-container"
+        className="shop-container flex flex--column gap--sm pt--xs"
         style={{ display: !shoppingItems ? 'none' : '', margin: '0 auto' }}>
-        <NewSortAndFilter
-          showFilterContainer={showFilterContainer}
-          setShowFilterContainer={setShowFilterContainer}
-          showSortContainer={showSortContainer}
-          setShowSortContainer={setShowSortContainer}
-          showProductsPerPage={showProductsPerPage}
-          setShowProductsPerPage={setShowProductsPerPage}
-          numOfProducts={numOfProducts}
-          setNumOfProducts={setNumOfProducts}
+        <div
+          className="paginated-sort-and-filter flex flex-wrap--wrap align-items--c justify-content--c gap--sm w--70%"
+          style={{ margin: '0 auto' }}>
+          {/* <Filter /> */}
+          {/* TODO: add this like ajio */}
+          {/* <div>Product Grid Changer</div> */}
+          {/* TODO: SORTING */}
+          {/* <Sort /> */}
+        </div>
+        <ReactPaginate
+          previousLabel={'prev'}
+          nextLabel={'next'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={totalPages}
+          marginPagesDisplayed={0}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
         />
-        {toast.message && <Toast message={toast.message} />}
-        <main className="grid--gallery flex-grow--3">
+        {/* TODO: REplace toast with react-toastify */}
+        {/* {toast.message && <Toast message={toast.message} />} */}
+        <main className="flex flex-wrap--wrap align-items--c justify-content--c gap--sm">
           {shoppingItems &&
             shoppingItems.map((product) => {
               // filteredData.map((product) => {
@@ -159,7 +187,8 @@ export const Shop = () => {
                       }
                     }}
                     isCartItem={
-                      cartItems && isProductInArray(cartItems, product)
+                      state?.cartItems &&
+                      isProductInArray(state?.cartItems, product)
                     }
                     handleAddToCart={async (e) => {
                       if (token) {
@@ -172,12 +201,6 @@ export const Shop = () => {
                         );
                         navigate('/cart');
                       } else {
-                        dispatch({
-                          type: 'TOGGLE_TOAST',
-                          payload: 'Login Toast',
-                        });
-                        hideToast(dispatch, 3000);
-                        alert('Please login');
                         navigate('/login');
                       }
                     }}

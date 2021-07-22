@@ -9,6 +9,10 @@ const CartProvider = ({ children }) => {
     shoppingItems: [],
     wishlistItems: [],
     cartItems: [],
+    showLoader: false,
+    pagination: {
+      totalPages: 0,
+    },
     sortBy: null,
     showAllInventory: false,
     showFastDeliveryOnly: false,

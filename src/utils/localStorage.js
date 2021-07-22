@@ -5,13 +5,13 @@ export const getLocalCredentials = () => {
   const userEmail = JSON.parse(localStorage.getItem('logincredentials'))
     ?.userEmail;
 
-  console.log({ 'consumed local token': token, userId, userEmail });
+  // console.log({ 'consumed local token': token, userId, userEmail });
   return { userId, token, userEmail };
 };
 
 // saving logged in user's credentials in localStorage
 export const setLocalCredentials = (token, userId, userEmail) => {
-  console.log({ 'token set': token });
+  // console.log({ 'token set': token });
   return localStorage.setItem(
     'logincredentials',
     JSON.stringify({ token, userId, userEmail })

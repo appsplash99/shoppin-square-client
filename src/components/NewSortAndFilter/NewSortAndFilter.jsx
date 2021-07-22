@@ -1,5 +1,5 @@
 import { NewFilterContainer } from './NewFilterContainer';
-import { NewtSortContainer } from './NewSortContainer';
+import { NewSortContainer } from './NewSortContainer';
 import { Btn } from 'morphine-ui';
 import { IoIosArrowDown, IoIosArrowBack } from 'react-icons/io';
 import './NewSortAndFilter.css';
@@ -56,7 +56,7 @@ export const NewSortAndFilter = ({
         {showSortContainer ? <IoIosArrowDown /> : <IoIosArrowBack />}
       </Btn>
       {showSortContainer && (
-        <NewtSortContainer
+        <NewSortContainer
           handleCloseSortContainer={() => setShowSortContainer(false)}
         />
       )}

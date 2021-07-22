@@ -32,6 +32,15 @@ export const filterActions = {
   TOGGLE_SLIDER: 'TOGGLE_SLIDER',
 };
 
+export const loaderActions = {
+  SHOW_LOADER: 'SHOW_LOADER',
+  HIDE_LOADER: 'HIDE_LOADER',
+};
+
+export const paginationActions = {
+  SET_TOTAL_PAGES: 'SET_TOTAL_PAGES',
+};
+
 export const sortActions = { SORT: 'SORT' };
 
 export const errorActions = { SET_ERROR_MESSAGE: 'SET_ERROR_MESSAGE' };
@@ -40,6 +49,24 @@ export const userActions = { LOG_OUT_USER: 'LOG_OUT_USER' };
 
 export const cartStateReducer = (prevState, action) => {
   switch (action.type) {
+    /** */
+    case paginationActions.SET_TOTAL_PAGES: {
+      return {
+        ...prevState,
+        pagination: {
+          ...prevState.pagination,
+          totalPages: action.payload.totalPages,
+        },
+      };
+    }
+
+    /** LOADER ACTIONS */
+    case loaderActions.SHOW_LOADER:
+      return { ...prevState, showLoader: true };
+
+    case loaderActions.HIDE_LOADER:
+      return { ...prevState, showLoader: false };
+
     /** USER ACTIONS */
     case userActions.LOG_OUT_USER:
       return {
@@ -64,7 +91,14 @@ export const cartStateReducer = (prevState, action) => {
     /**PRODUCTS ACTIONS */
     case shoppingProductsAction.LOAD_PRODUCTS:
       console.log('products loaded');
-      return { ...prevState, shoppingItems: action.payload.products };
+      return {
+        ...prevState,
+        pagination: {
+          ...prevState.pagination,
+          totalPages: action.payload.totalPages,
+        },
+        shoppingItems: action.payload.products,
+      };
 
     case shoppingProductsAction.CHANGE_PRODUCT_CATEGORY:
       console.log(prevState.currentProductsApiRoute);
@@ -125,10 +159,7 @@ export const cartStateReducer = (prevState, action) => {
 
     /**SORT AND FILTER ACTIONS */
     case sortActions.SORT:
-      return {
-        ...prevState,
-        sortBy: action.payload,
-      };
+      return { ...prevState, sortBy: prevState.sortBy };
     case filterActions.TOGGLE_INVENTORY:
       return {
         ...prevState,

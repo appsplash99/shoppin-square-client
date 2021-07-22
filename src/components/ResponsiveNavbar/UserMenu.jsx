@@ -9,10 +9,7 @@ import { getLocalCredentials } from '../../utils/localStorage';
 import { logOutUser } from '../../utils/newServerRequests';
 
 const UserMenu = () => {
-  const {
-    state: { wishlistItems, cartItems },
-    dispatch,
-  } = useCartState();
+  const { state, dispatch } = useCartState();
   const { token } = getLocalCredentials();
 
   if (!token) {
@@ -53,7 +50,7 @@ const UserMenu = () => {
       <Link className="nav__link text--primary" to="wishlist">
         <DataBadgeIcon
           variant="circular"
-          data={wishlistItems ? wishlistItems.length : 0}
+          data={state && state.wishlistItems ? state.wishlistItems.length : 0}
           icon={<FcLike className="text--xl" />}
           iconStyleProp={{ backgroundColor: 'inherit' }}
           badgeDataStyleProp={{
@@ -66,7 +63,7 @@ const UserMenu = () => {
       <Link className="nav__link text--primary" to="cart">
         <DataBadgeIcon
           variant="circular"
-          data={cartItems ? cartItems.length : 0}
+          data={state && state.cartItems ? state.cartItems.length : 0}
           icon={<GiShoppingBag className="text--xl text--success" />}
           iconStyleProp={{ backgroundColor: 'inherit' }}
           badgeDataStyleProp={{

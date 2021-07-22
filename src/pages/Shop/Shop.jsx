@@ -6,13 +6,12 @@ import {
 } from '../../utils/newServerRequests';
 import { ImEye } from 'react-icons/im';
 import { FaShoppingCart } from 'react-icons/fa';
-// import { hideToast } from '../../utils/hideToast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartState } from '../../context/cart-context';
 // TODO: REPLACE TOAST BY REACT TOASTIFY
 // import { Toast } from '../../components';
-import { Sort } from '../../components/Sort/Sort';
-import { Filter } from '../../components/Filter/Filter';
+// import { Sort } from '../../components/Sort/Sort';
+// import { Filter } from '../../components/Filter/Filter';
 import { getLocalCredentials } from '../../utils/localStorage';
 import { isProductInArray } from '../../utils/array-functions';
 import { loadProductsFromDB } from '../../utils/newServerRequests';
@@ -24,8 +23,8 @@ export const Shop = () => {
   const navigate = useNavigate();
   const { token, userId } = getLocalCredentials();
   const [isLoading, setIsLoading] = useState(false);
-  const [showProductsPerPage, setShowProductsPerPage] = useState(false);
-  const [numOfProducts, setNumOfProducts] = useState(0);
+  // const [showProductsPerPage, setShowProductsPerPage] = useState(false);
+  // const [numOfProducts, setNumOfProducts] = useState(0);
 
   const {
     state: {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Btn } from 'morphine-ui';
 
 export const Home = () => {
   const womenImage =

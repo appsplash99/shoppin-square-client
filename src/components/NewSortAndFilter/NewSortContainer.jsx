@@ -7,7 +7,7 @@ import { loadProductsFromDB } from '../../utils/newServerRequests';
 export const NewSortContainer = ({ handleCloseSortContainer }) => {
   const {
     state: { sortBy, currentProductsApiRoute },
-    dispatch,
+    // dispatch,
   } = useCartState();
 
   const handleOnchange = async (e) => {

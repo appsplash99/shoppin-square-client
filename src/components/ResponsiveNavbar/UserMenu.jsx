@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { GiShoppingBag } from 'react-icons/gi';
-import { FcLike, FcBusinesswoman } from 'react-icons/fc';
+// import { FcLike, FcBusinesswoman } from 'react-icons/fc';
+import { FcLike } from 'react-icons/fc';
 import { FaUserPlus } from 'react-icons/fa';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { DataBadgeIcon, Btn, BtnInverted } from 'morphine-ui';

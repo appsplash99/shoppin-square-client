@@ -24,7 +24,8 @@
   margin-top: var(--space-md);
 }
 
-.resp-nav__logo-image {}
+.resp-nav__logo-image {
+}
 
 .resp-nav__search {
   display: flex;
@@ -199,7 +200,7 @@
   }
 
   .body-for-resp-nav {
-    margin-top: var(--space-xxl);
+    margin-top: var(--space-xl);
     padding: var(--space-md);
   }
 

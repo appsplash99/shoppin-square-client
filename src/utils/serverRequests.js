@@ -38,7 +38,7 @@ export const productAddToCart = async (
     // console.log(JSON.stringify(data, null, 2));
     if (data.success) {
       dispatch({
-        type: 'LOAD-CART-ITEMS',
+        type: 'LOAD_CART_ITEMS',
         payload: data.latestCart.cartItems,
       });
       toast.success('Product Added to cart');
@@ -59,14 +59,16 @@ export const productRemoveFromCart = async (
   try {
     const {
       data: { success, latestCart },
+      data,
     } = await axios({
       method: 'DELETE',
       url: `${CART_ROUTE}/${userId}/${productId}`,
       headers: { authorization: token },
     });
+    console.log({ data });
     if (success) {
       dispatch({
-        type: 'LOAD-CART-ITEMS',
+        type: 'LOAD_CART_ITEMS',
         payload: latestCart?.cartItems,
       });
       toast.success('one Item removed from cart...');
@@ -92,10 +94,9 @@ export const productRemoveFromWishlist = async (
     });
     if (data.success) {
       dispatch({
-        type: 'LOAD-WISHLIST-ITEMS',
+        type: 'LOAD_WISHLIST_ITEMS',
         payload: data.latestWishlist.wishlistItems,
       });
-
       toast.success('one item removed from wishlist');
     }
   } catch (error) {
@@ -118,8 +119,12 @@ export const productAddToWishlist = async (
       headers: { authorization: token },
     });
     if (data.success === 200) {
+      // dispatch({
+      //   type: 'ADD_OR_REMOVE_FROM_WISHLIST',
+      //   payload: product,
+      // });
       dispatch({
-        type: 'LOAD-WISHLIST-ITEMS',
+        type: 'LOAD_EXISTING_WISHLIST_ITEMS_AFTER_ADD_OR_REMOVE',
         payload: data.latestWishlist.wishlistItems,
       });
       toast.success('1 item added to wishlist');
@@ -166,7 +171,7 @@ export const updateCartItemQtyInDb = async (
     });
     // console.log(JSON.stringify(data, null, 2));
     if (success)
-      dispatch({ type: 'LOAD-CART-ITEMS', payload: latestCartItems.cartItems });
+      dispatch({ type: 'LOAD_CART_ITEMS', payload: latestCartItems.cartItems });
   } catch (error) {
     console.error({ error });
     toast.error('Cart Updation failed');

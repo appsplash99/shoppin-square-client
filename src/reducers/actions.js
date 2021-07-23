@@ -1,0 +1,43 @@
+export const shoppingProductsAction = {
+  LOAD_PRODUCTS: 'LOAD_PRODUCTS',
+  CHANGE_PRODUCT_CATEGORY: 'CHANGE_PRODUCT_CATEGORY',
+};
+
+export const cartActions = {
+  LOAD_CART_ITEMS: 'LOAD_CART_ITEMS',
+  ADD_TO_CART: 'ADD_TO_CART', // not being used
+  REMOVE_FROM_CART: 'REMOVE_FROM_CART', // not being used
+  INCREMENT_PRODUCT_QTY_IN_CART: 'INCREMENT_PRODUCT_QTY_IN_CART', // not being used
+  DECREMENT_PRODUCT_QTY_IN_CART: 'DECREMENT_PRODUCT_QTY_IN_CART', // not being used
+};
+
+export const wishlistActions = {
+  LOAD_WISHLIST_ITEMS: 'LOAD_WISHLIST_ITEMS',
+  LOAD_EXISTING_WISHLIST_ITEMS_AFTER_ADD_OR_REMOVE:
+    'LOAD_EXISTING_WISHLIST_ITEMS_AFTER_ADD_OR_REMOVE',
+  ADD_OR_REMOVE_FROM_WISHLIST: 'ADD_OR_REMOVE_FROM_WISHLIST', // commented
+  REMOVE_FROM_WISHLIST: 'REMOVE_FROM_WISHLIST', // not being used
+};
+
+export const filterActions = {
+  FILTER: 'FILTER',
+  TOGGLE_INVENTORY: 'TOGGLE_INVENTORY',
+  TOGGLE_DELIVERY: 'TOGGLE_DELIVERY',
+  SLIDER: 'SLIDER',
+  TOGGLE_SLIDER: 'TOGGLE_SLIDER',
+};
+
+export const sortActions = { SORT: 'SORT' };
+
+export const loaderActions = {
+  SHOW_LOADER: 'SHOW_LOADER',
+  HIDE_LOADER: 'HIDE_LOADER',
+};
+
+export const paginationActions = {
+  SET_TOTAL_PAGES: 'SET_TOTAL_PAGES',
+};
+
+export const errorActions = { SET_ERROR_MESSAGE: 'SET_ERROR_MESSAGE' };
+
+export const userActions = { LOG_OUT_USER: 'LOG_OUT_USER' };

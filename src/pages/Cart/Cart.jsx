@@ -1,3 +1,4 @@
+import React from 'react';
 import axios from 'axios';
 import './Cart.css';
 import {
@@ -7,20 +8,18 @@ import {
 import {
   productRemoveFromCart,
   updateCartItemQtyInDb,
-} from '../../utils/newServerRequests';
-import { Link } from 'react-router-dom';
+} from '../../utils/serverRequests';
 import { useEffect, useState } from 'react';
-import { Btn, LoaderDonutSpinner } from 'morphine-ui';
 import { CART_ROUTE } from '../../utils/apiRoutes';
-import { Toast } from '../../components/Toast/Toast';
+import { Btn, LoaderDonutSpinner } from 'morphine-ui';
 import { useCartState } from '../../context/cart-context';
 import { getLocalCredentials } from '../../utils/localStorage';
-import { ChangeProductQtyBtn } from '../../components/';
+import { ChangeProductQtyBtn, EmptyCartOrWishlist } from '../../components/';
 
 export const Cart = () => {
   const [isLoading, setIsLoading] = useState(false);
   const {
-    state: { cartItems, toast },
+    state: { cartItems },
     dispatch,
   } = useCartState();
 
@@ -40,7 +39,7 @@ export const Cart = () => {
         // console.log(());
         console.log(JSON.stringify(newResp, null, 2));
         dispatch({
-          type: 'LOAD-CART-ITEMS',
+          type: 'LOAD_CART_ITEMS',
           payload: newResp.data.cart?.cartItems,
         });
         setIsLoading(false);
@@ -51,18 +50,9 @@ export const Cart = () => {
     })();
   }, [dispatch]);
 
-  // TODO: STYLE THE RETURNED COMPONENT
-  // - TO BE DISPLAYED WHEN CART IS EMPTY
   if (cartItems && cartItems.length === 0 && !isLoading) {
     return (
-      <div className="mt--lg bg--secondary pb--lg text--dark">
-        <div>Your Cart is Empty - Please add products</div>
-        <Link to="/shop">
-          <Btn variant="primary" shape="capsule" size="md">
-            Shop Products
-          </Btn>
-        </Link>
-      </div>
+      <EmptyCartOrWishlist displayText="Your Cart is Empty - Please add products" />
     );
   }
 
@@ -193,7 +183,6 @@ export const Cart = () => {
           </div>
         )
       )}
-      {toast.message && <Toast message={toast.message} />}
     </div>
   );
 };

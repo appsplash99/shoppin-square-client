@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 import './Wishlist.css';
 import axios from 'axios';
-import { Toast } from '../../components/Toast/Toast';
 import { Btn, LoaderDonutSpinner } from 'morphine-ui';
 import { WISHLIST_ROUTE } from '../../utils/apiRoutes';
 import { useCartState } from '../../context/cart-context';
-import { Link } from 'react-router-dom';
 import { getLocalCredentials } from '../../utils/localStorage';
-import { productRemoveFromWishlist } from '../../utils/newServerRequests';
+import { productRemoveFromWishlist } from '../../utils/serverRequests';
+import { EmptyCartOrWishlist } from '../../components';
 
 export const Wishlist = () => {
   const [isLoading, setIsLoading] = useState(false);
   const {
     dispatch,
-    state: { wishlistItems, toast },
+    state: { wishlistItems },
   } = useCartState();
 
   useEffect(() => {
@@ -26,9 +25,9 @@ export const Wishlist = () => {
           url: WISHLIST_ROUTE + `/${userId}`,
           headers: { Authorization: token },
         });
-        console.log(JSON.stringify(newResp, null, 2));
+        // console.log(JSON.stringify(newResp, null, 2));
         dispatch({
-          type: 'LOAD-WISHLIST-ITEMS',
+          type: 'LOAD_WISHLIST_ITEMS',
           payload: newResp.data.userWishlist.wishlistItems,
         });
         setIsLoading(false);
@@ -41,14 +40,7 @@ export const Wishlist = () => {
 
   if (wishlistItems && wishlistItems.length === 0 && !isLoading) {
     return (
-      <div className="mt--lg bg--secondary pb--lg text--dark">
-        <div>Your Wishlist is Empty - Please add products</div>
-        <Link to="/shop">
-          <Btn variant="primary" shape="capsule" size="md">
-            Shop Products
-          </Btn>
-        </Link>
-      </div>
+      <EmptyCartOrWishlist displayText="Your Wishlist is Empty - Please add products" />
     );
   }
 
@@ -119,8 +111,6 @@ export const Wishlist = () => {
           </div>
         </div>
       )}
-
-      {toast.message && <Toast message={toast.message} />}
     </div>
   );
 };

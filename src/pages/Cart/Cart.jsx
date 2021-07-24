@@ -9,6 +9,7 @@ import {
   updateCartItemQtyInDb,
   getUserCartItems,
 } from '../../utils/serverRequests';
+import { useNavigate } from 'react-router-dom';
 import { Btn, LoaderDonutSpinner } from 'morphine-ui';
 import { useCartState } from '../../context/cart-context';
 import { getLocalCredentials } from '../../utils/localStorage';
@@ -19,6 +20,7 @@ export const Cart = () => {
     state: { cartItems, showLoader },
     dispatch,
   } = useCartState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUserCartItems({ dispatch });
@@ -70,10 +72,11 @@ export const Cart = () => {
                     }}>
                     <div className="product-cardPosition flex gap">
                       <img
-                        className="product__image cart-product-image"
+                        className="product__image cart-product-image cursor--pointer"
                         src={product.images[0]}
-                        alt=""
+                        alt={product.name}
                         style={{ height: '50%', width: '10rem' }}
+                        onClick={() => navigate(`/product/${product._id}`)}
                       />
                       <div className="product__content flex flex--column gap--xxs p--xxs justify-content--c">
                         <div className="flex justify-content--sb">

@@ -33,7 +33,7 @@ export default function App() {
       });
       if (response.status === 200) {
         dispatch({
-          type: 'LOAD-CART-ITEMS',
+          type: 'LOAD_CART_ITEMS',
           payload: response.data.cart?.cartItems,
         });
       }
@@ -44,7 +44,7 @@ export default function App() {
         });
         if (response.status === 200) {
           dispatch({
-            type: 'LOAD-WISHLIST-ITEMS',
+            type: 'LOAD_WISHLIST_ITEMS',
             payload: response.data.userWishlist.wishlistItems,
           });
         }
@@ -93,7 +93,7 @@ export default function App() {
       </div>
       <ToastContainer
         position="bottom-right"
-        autoClose={3000}
+        autoClose={2500}
         hideProgressBar={false}
         newestOnTop={true}
         closeOnClick

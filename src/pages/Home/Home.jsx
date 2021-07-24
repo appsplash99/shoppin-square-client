@@ -1,7 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useCartState } from '../../context/cart-context';
+import { MENS_PRODUCT, WOMENS_PRODUCT } from '../../utils/apiRoutes';
 
 export const Home = () => {
+  const { dispatch: categoryDispatch } = useCartState();
+
   const womenImage =
     'https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/productimage/2021/4/19/ec68db24-422b-4755-802d-9b7cf1b4e11b1618806979607-1.jpg';
 
@@ -24,7 +28,13 @@ export const Home = () => {
               backgroundColor: 'black',
               width: '100%',
             }}
-            className="text-decoration--none text--xxl font-weight--700 text--light">
+            className="text-decoration--none text--xxl font-weight--700 text--light"
+            onClick={() => {
+              categoryDispatch({
+                type: 'CHANGE_PRODUCT_CATEGORY',
+                payload: { route: MENS_PRODUCT },
+              });
+            }}>
             Men
           </Link>{' '}
         </div>
@@ -41,7 +51,13 @@ export const Home = () => {
               backgroundColor: 'black',
               width: '100%',
             }}
-            className="text-decoration--none text--xxl font-weight--700 text--light">
+            className="text-decoration--none text--xxl font-weight--700 text--light"
+            onClick={() => {
+              categoryDispatch({
+                type: 'CHANGE_PRODUCT_CATEGORY',
+                payload: { route: WOMENS_PRODUCT },
+              });
+            }}>
             Women
           </Link>{' '}
         </div>

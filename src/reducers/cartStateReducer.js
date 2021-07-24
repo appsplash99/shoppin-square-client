@@ -1,10 +1,8 @@
-// TODO: Remove the commented code
 import {
   isProductInArray,
   concatNewProduct,
   removeExistingProductFromArray,
 } from '../utils/array-functions';
-
 import {
   shoppingProductsAction,
   cartActions,
@@ -16,10 +14,95 @@ import {
   errorActions,
   userActions,
 } from './actions';
+import { makeProductsApiUrl, ALL_PRODUCTS } from '../utils/apiRoutes';
 
 export const cartStateReducer = (prevState, action) => {
   switch (action.type) {
-    /** Paginated Actions */
+    case filterActions.FILTER_CATEGORY: {
+      return {
+        ...prevState,
+        // change context with new value
+        filterObj: { ...prevState.filterObj, category: action.payload },
+        // make new API url with new filter obj
+        currentProductsApiRoute: makeProductsApiUrl({
+          allProductsApi: ALL_PRODUCTS,
+          sortBy: prevState.sortBy,
+          filterObj: { ...prevState.filterObj, category: action.payload },
+        }),
+        // set current page to zero
+        pagination: { ...prevState.pagination, currentPage: 0 },
+      };
+    }
+
+    case filterActions.FILTER_IS_NEW_PRODUCT: {
+      return {
+        ...prevState,
+        // change context with new value
+        filterObj: { ...prevState.filterObj, is_new_product: action.payload },
+        // make new API url with new filter obj
+        currentProductsApiRoute: makeProductsApiUrl({
+          allProductsApi: ALL_PRODUCTS,
+          sortBy: prevState.sortBy,
+          filterObj: { ...prevState.filterObj, is_new_product: action.payload },
+        }),
+      };
+    }
+
+    case filterActions.FILTER_IN_STOCK: {
+      return {
+        ...prevState,
+        // change context with new value
+        filterObj: { ...prevState.filterObj, in_stock: action.payload },
+        // make new API url with new filter obj
+        currentProductsApiRoute: makeProductsApiUrl({
+          allProductsApi: ALL_PRODUCTS,
+          sortBy: prevState.sortBy,
+          filterObj: { ...prevState.filterObj, in_stock: action.payload },
+        }),
+      };
+    }
+
+    case filterActions.FILTER_SALE_ITEM: {
+      return {
+        ...prevState,
+        // change context with new value
+        filterObj: { ...prevState.filterObj, sale: action.payload },
+        // make new API url with new filter obj
+        currentProductsApiRoute: makeProductsApiUrl({
+          allProductsApi: ALL_PRODUCTS,
+          sortBy: prevState.sortBy,
+          filterObj: { ...prevState.filterObj, sale: action.payload },
+        }),
+      };
+    }
+
+    case filterActions.FILTER_FAST_DELIVERY: {
+      return {
+        ...prevState,
+        // change context with new value
+        filterObj: { ...prevState.filterObj, fastDelivery: action.payload },
+        // make new API url with new filter obj
+        currentProductsApiRoute: makeProductsApiUrl({
+          allProductsApi: ALL_PRODUCTS,
+          sortBy: prevState.sortBy,
+          filterObj: { ...prevState.filterObj, fastDelivery: action.payload },
+        }),
+      };
+    }
+
+    case sortActions.SORT:
+      return {
+        ...prevState,
+        // update context
+        sortBy: action.payload,
+        currentProductsApiRoute: makeProductsApiUrl({
+          allProductsApi: ALL_PRODUCTS,
+          // makeProductApiUrl with new SortBy value
+          sortBy: action.payload,
+          filterObj: { ...prevState.filterObj },
+        }),
+      };
+
     case paginationActions.SET_TOTAL_PAGES: {
       return {
         ...prevState,
@@ -31,7 +114,6 @@ export const cartStateReducer = (prevState, action) => {
     }
 
     case paginationActions.SET_CURRENT_PAGE: {
-      console.log({ currentPage: action.payload });
       return {
         ...prevState,
         pagination: {
@@ -41,14 +123,12 @@ export const cartStateReducer = (prevState, action) => {
       };
     }
 
-    /** LOADER ACTIONS */
     case loaderActions.SHOW_LOADER:
       return { ...prevState, showLoader: true };
 
     case loaderActions.HIDE_LOADER:
       return { ...prevState, showLoader: false };
 
-    /** USER ACTIONS */
     case userActions.LOG_OUT_USER:
       return {
         ...prevState,
@@ -57,21 +137,10 @@ export const cartStateReducer = (prevState, action) => {
         wishlistItems: [],
       };
 
-    /** TOAST ACTIONS */
-    case 'TOGGLE_TOAST':
-      return {
-        ...prevState,
-        toast: { message: action.payload, value: action.payload.value },
-      };
-
-    /** ERROR ACTIONS */
     case errorActions.SET_ERROR_MESSAGE:
-      console.log('Error Set');
       return { ...prevState, errorMessage: action.payload };
 
-    /**PRODUCTS ACTIONS */
     case shoppingProductsAction.LOAD_PRODUCTS:
-      console.log('products loaded');
       return {
         ...prevState,
         pagination: {
@@ -81,29 +150,13 @@ export const cartStateReducer = (prevState, action) => {
         shoppingItems: action.payload.products,
       };
 
-    case shoppingProductsAction.CHANGE_PRODUCT_CATEGORY:
-      console.log(prevState.currentProductsApiRoute);
-      return {
-        ...prevState,
-        currentProductsApiRoute: action.payload.route,
-        pagination: {
-          ...prevState.pagination,
-          currentPage: 0,
-        },
-      };
-
-    /**CART ACTIONS */
     case cartActions.LOAD_CART_ITEMS:
-      console.log('cartItems loaded');
       return { ...prevState, cartItems: action.payload };
 
-    /**WISHLIST ACTIONS */
     case wishlistActions.LOAD_WISHLIST_ITEMS:
-      console.log('wishlist Items loaded');
       return { ...prevState, wishlistItems: action.payload };
 
     case wishlistActions.ADD_OR_REMOVE_FROM_WISHLIST:
-      console.log('toggling is wishlisted flag');
       return {
         ...prevState,
         wishlistItems: !isProductInArray(
@@ -115,21 +168,6 @@ export const cartStateReducer = (prevState, action) => {
               prevState.wishlistItems,
               action.payload
             ),
-      };
-
-    /**SORT AND FILTER ACTIONS */
-    case sortActions.SORT:
-      return { ...prevState, sortBy: prevState.sortBy };
-
-    case filterActions.TOGGLE_INVENTORY:
-      return {
-        ...prevState,
-        showAllInventory: !prevState.showAllInventory,
-      };
-    case filterActions.TOGGLE_DELIVERY:
-      return {
-        ...prevState,
-        showFastDeliveryOnly: !prevState.showFastDeliveryOnly,
       };
 
     default:

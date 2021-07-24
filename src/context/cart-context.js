@@ -14,7 +14,8 @@ const CartProvider = ({ children }) => {
     cartItems: [],
     pagination: {
       totalPages: 0,
-      currentPage: null,
+      // currentPage: null,
+      currentPage: 0,
     },
     errorMessage: '',
   };

@@ -1,33 +1,32 @@
 import axios from 'axios';
-import {
-  CART_ROUTE,
-  BASE_URL,
-  WISHLIST_ROUTE,
-  LOGIN_ROUTE,
-  REGISTER_ROUTE,
-} from './apiRoutes';
-import { isProductInArray } from './array-functions';
+import { toast } from 'react-toastify';
 import {
   removeLocalCredentials,
   setLocalCredentials,
   getLocalCredentials,
 } from './localStorage';
-import { toast } from 'react-toastify';
+import {
+  BASE_URL,
+  ALL_PRODUCTS,
+  CART_ROUTE,
+  WISHLIST_ROUTE,
+  LOGIN_ROUTE,
+  REGISTER_ROUTE,
+} from './apiRoutes';
+import { isProductInArray } from './array-functions';
 
 /** PRODUCTS ROUTE HANDLERS */
-export const loadProductsFromDB = async (url, token) => {
-  const res = await axios({
-    method: 'GET',
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token,
-    },
-  });
-  if (res.status === 200 || res.status === 201) {
-    return res;
-  } else {
-    throw new Error('Failed to load products from server');
+export const loadProductsFromDB = async ({ url, dispatch }) => {
+  try {
+    dispatch({ type: 'SHOW_LOADER' });
+    const { data, status } = await axios({ method: 'GET', url });
+    if (status === 200 || status === 201) {
+      dispatch({ type: 'LOAD_PRODUCTS', payload: data });
+    }
+    dispatch({ type: 'HIDE_LOADER' });
+  } catch (error) {
+    dispatch({ type: 'HIDE_LOADER' });
+    toast.error('Unable to load products from DB');
   }
 };
 
@@ -279,4 +278,21 @@ export const signUpUser = async ({ dispatch, navigate, userData }) => {
     toast.error('Failed to Signup');
     dispatch({ type: 'SET_ERROR_MESSAGE', payload: error.message });
   }
+};
+
+/** PAGINATION HANDLER */
+// TODO: Need to make it sync with currentProductsRouteApi in context
+export const getPaginatedProducts = async ({
+  e,
+  dispatch,
+  currentProductsApiRoute,
+  currentPage,
+}) => {
+  dispatch({ type: 'SET_CURRENT_PAGE', payload: e.selected });
+  let url = `${currentProductsApiRoute}&page=${currentPage}&limit=5`;
+  if (currentProductsApiRoute === ALL_PRODUCTS) {
+    url = `${currentProductsApiRoute}?page=${currentPage}&limit=5`;
+  }
+  // handle products of next page
+  loadProductsFromDB({ url, dispatch });
 };

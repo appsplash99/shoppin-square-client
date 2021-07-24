@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Btn } from 'morphine-ui';
 import { IoIosArrowDown, IoIosArrowBack } from 'react-icons/io';
-import { NewSortContainer } from '../NewSortAndFilter/NewSortContainer';
+import { SortContainer } from './SortContainer';
 
 export const Sort = () => {
   const [showSortContainer, setShowSortContainer] = useState(false);
@@ -20,7 +20,7 @@ export const Sort = () => {
         {showSortContainer ? <IoIosArrowDown /> : <IoIosArrowBack />}
       </Btn>
       {showSortContainer && (
-        <NewSortContainer
+        <SortContainer
           handleCloseSortContainer={() => setShowSortContainer(false)}
         />
       )}

@@ -3,7 +3,6 @@ import './Shop.css';
 import {
   productAddToCart,
   productAddToWishlist,
-  getPaginatedProducts,
 } from '../../utils/serverRequests';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
@@ -37,12 +36,7 @@ export const Shop = () => {
   } = useCartState();
 
   const handlePageClick = async (e) => {
-    getPaginatedProducts({
-      e,
-      dispatch,
-      currentPage,
-      currentProductsApiRoute,
-    });
+    dispatch({ type: 'SET_CURRENT_PAGE', payload: e.selected });
   };
 
   useEffect(() => {
@@ -53,10 +47,7 @@ export const Shop = () => {
     return (
       <div
         className="flex align-items--c justify-content--c"
-        style={{
-          height: 'calc(100vh - 8vh)',
-          display: 'flex',
-        }}>
+        style={{ height: '92vh' }}>
         <LoaderDonutSpinner size="xxl" variant="primary" />
       </div>
     );
@@ -81,9 +72,11 @@ export const Shop = () => {
           breakLabel={'...'}
           breakClassName={'break-me'}
           pageCount={totalPages}
+          // pageCount={totalPages + 1}
           marginPagesDisplayed={0}
           pageRangeDisplayed={5}
           onPageChange={handlePageClick}
+          initialPage={currentPage}
           forcePage={currentPage}
           containerClassName={'pagination'}
           subContainerClassName={'pages pagination'}

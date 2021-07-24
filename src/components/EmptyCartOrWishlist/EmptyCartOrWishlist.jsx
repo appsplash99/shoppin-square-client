@@ -1,7 +1,6 @@
 import React from 'react';
 import { Btn } from 'morphine-ui';
 import { Link } from 'react-router-dom';
-import { ALL_PRODUCTS } from '../../utils/apiRoutes';
 import { useCartState } from '../../context/cart-context';
 
 export const EmptyCartOrWishlist = ({ displayText }) => {

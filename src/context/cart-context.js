@@ -12,6 +12,7 @@ const CartProvider = ({ children }) => {
     showLoader: false,
     pagination: {
       totalPages: 0,
+      currentPage: 0 ,
     },
     sortBy: null,
     showAllInventory: false,

@@ -13,13 +13,7 @@ export const EmptyCartOrWishlist = ({ displayText }) => {
       <div>{displayText}</div>
       <Link
         to="/shop"
-        onClick={() => {
-          dispatch({
-            type: 'CHANGE_PRODUCT_CATEGORY',
-            payload: { route: ALL_PRODUCTS },
-          });
-          // console.log({ currentProductsApiRoute });
-        }}>
+        onClick={() => dispatch({ type: 'FILTER_CATEGORY', payload: '' })}>
         <Btn variant="primary" shape="capsule" size="sm">
           Shop Products
         </Btn>

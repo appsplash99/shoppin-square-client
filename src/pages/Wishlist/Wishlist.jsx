@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './Wishlist.css';
 import {
-  getWishlistItems,
+  getUserWishlistItems,
   productRemoveFromWishlist,
 } from '../../utils/serverRequests';
 import { Btn, LoaderDonutSpinner } from 'morphine-ui';
@@ -16,8 +16,8 @@ export const Wishlist = () => {
   } = useCartState();
 
   useEffect(() => {
-    getWishlistItems({ dispatch });
-  }, []);
+    getUserWishlistItems({ dispatch });
+  }, [dispatch]);
 
   if (showLoader) {
     return (

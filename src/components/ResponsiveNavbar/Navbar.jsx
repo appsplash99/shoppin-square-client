@@ -8,7 +8,7 @@ import {
   WOMENS_PRODUCT,
 } from '../../utils/apiRoutes';
 
-const OldNavbar = ({ showMobileNav, setShowMobileNav }) => {
+export const Navbar = ({ showMobileNav, setShowMobileNav }) => {
   const {
     // state: { currentProductsApiRoute },
     dispatch: categoryDispatch,
@@ -37,7 +37,7 @@ const OldNavbar = ({ showMobileNav, setShowMobileNav }) => {
               className="nav__link resp-nav__mobile-link text--secondary"
               onClick={() => {
                 categoryDispatch({
-                  type: 'CHANGE-PRODUCT-CATEGORY',
+                  type: 'CHANGE_PRODUCT_CATEGORY',
                   payload: { route: ALL_PRODUCTS },
                 });
                 // console.log({ currentProductsApiRoute });
@@ -46,7 +46,13 @@ const OldNavbar = ({ showMobileNav, setShowMobileNav }) => {
             </Link>
             <Link
               to="/shop"
-              className="nav__link resp-nav__desktop-link text--themeRed">
+              className="nav__link resp-nav__desktop-link text--themeRed"
+              onClick={() => {
+                categoryDispatch({
+                  type: 'CHANGE_PRODUCT_CATEGORY',
+                  payload: { route: ALL_PRODUCTS },
+                });
+              }}>
               Shop
             </Link>
           </li>
@@ -56,7 +62,7 @@ const OldNavbar = ({ showMobileNav, setShowMobileNav }) => {
               className="nav__link text--primary"
               onClick={() => {
                 categoryDispatch({
-                  type: 'CHANGE-PRODUCT-CATEGORY',
+                  type: 'CHANGE_PRODUCT_CATEGORY',
                   payload: { route: MENS_PRODUCT },
                 });
               }}>
@@ -69,7 +75,7 @@ const OldNavbar = ({ showMobileNav, setShowMobileNav }) => {
               className="nav__link text--primary"
               onClick={() => {
                 categoryDispatch({
-                  type: 'CHANGE-PRODUCT-CATEGORY',
+                  type: 'CHANGE_PRODUCT_CATEGORY',
                   payload: { route: WOMENS_PRODUCT },
                 });
               }}>
@@ -81,5 +87,3 @@ const OldNavbar = ({ showMobileNav, setShowMobileNav }) => {
     </ul>
   );
 };
-
-export { OldNavbar };

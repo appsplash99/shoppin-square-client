@@ -1,4 +1,4 @@
-import { OldNavbar } from './Navbar';
+import { Navbar } from './Navbar';
 import { UserMenu } from './UserMenu';
 import './ResponsiveNavbar.css';
 import { FaSquarespace, FaWindowClose } from 'react-icons/fa';
@@ -21,7 +21,7 @@ const ResponsiveNavbar = ({ showMobileNav, setShowMobileNav }) => {
         </Btn>
       </div>
       <UserMenu />
-      <OldNavbar
+      <Navbar
         showMobileNav={showMobileNav}
         setShowMobileNav={setShowMobileNav}
       />

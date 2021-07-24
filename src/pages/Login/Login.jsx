@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { IoIosCloseCircle } from 'react-icons/io';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { LOGIN_ROUTE } from '../../utils/apiRoutes';
 import { Btn, LoaderDonutSpinner } from 'morphine-ui';
@@ -9,13 +11,11 @@ import { setLocalCredentials } from '../../utils/localStorage';
 import { loginValidationSchema } from '../../utils/formValidations';
 
 export const Login = (props) => {
+  const navigate = useNavigate();
   const {
-    state: { errorMessage },
+    state: { errorMessage, showLoader },
     dispatch,
   } = useCartState();
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const navigate = useNavigate();
   const loginPageStyle = {
     margin: 'var(--space-md) auto',
     maxWidth: 'calc(4*var(--space-xxl))',
@@ -30,105 +30,104 @@ export const Login = (props) => {
 
   // formik's handle submit
   const onSubmit = async (values) => {
-    console.log('Form data', values);
-
     try {
-      setIsLoading(true);
+      dispatch({ type: 'SHOW_LOADER' });
       const response = await axios({
         method: 'post',
         url: LOGIN_ROUTE,
         data: values,
       });
-      console.log(response);
       if ([400, 401, 404].includes(response.status)) {
-        console.log('from bad response');
-        dispatch({
-          type: 'SET_ERROR_MESSAGE',
-          payload: response.data,
-        });
-        // setLoginError(response.data);
+        toast.error('Bad Response Error');
       }
       if (response.status === 200) {
-        console.log(response);
         const { userId, token, userEmail } = response.data;
         // save token in local storage
         setLocalCredentials(token, userId, userEmail);
-        // alert(response.data.)
+        toast.success('Login Successful');
         navigate('/cart');
       }
-      console.log(response);
-      setIsLoading(false);
+      dispatch({ type: 'HIDE_LOADER' });
     } catch (error) {
-      setIsLoading(false);
-      console.log(error);
+      dispatch({ type: 'HIDE_LOADER' });
+      toast.error('Unable to login');
+      dispatch({ type: 'SET_ERROR_MESSAGE', payload: error.message });
     }
   };
 
   return (
-    <>
-      <div className="container ">
-        <div
-          className="flex align-items--c justify-content--c"
-          style={{
-            height: 'calc(100vh - 8vh)',
-            display: isLoading ? 'flex' : 'none',
-          }}>
-          <LoaderDonutSpinner size="xxl" variant="primary" />
-        </div>
-        <div
-          className={`${
-            isLoading ? 'display--none' : 'flex'
-          } flex--column gap--md align-items--c`}
-          style={loginPageStyle}>
-          <h2>Login Page</h2>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={loginValidationSchema}
-            onSubmit={onSubmit}>
-            <Form className="mt-1 w--70% flex flex--column align-items--c justify-content--c gap--sm">
-              <div
-                className={`text--danger p--xs ${
-                  !errorMessage && 'display--none'
-                } `}>
-                {errorMessage}
-              </div>
-              {/* EMAIL */}
-              <div className="form-group">
-                <Field
-                  type="text"
-                  name="email"
-                  className="form-control border-radius--sm p--xs"
-                  placeholder="Email"
-                />
-                <ErrorMessage
-                  name="email"
-                  component="p"
-                  className="text--danger"
-                />
-              </div>
-              <div className="form-group">
-                <Field
-                  type="password"
-                  name="password"
-                  className="form-control border-radius--sm p--xs"
-                  placeholder="Password"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="p"
-                  className="text--danger p--xxs "
-                />
-              </div>
+    <div className="container ">
+      <div
+        className="flex flex--column gap--md align-items--c"
+        style={loginPageStyle}>
+        <h2>Login Page</h2>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={loginValidationSchema}
+          onSubmit={onSubmit}>
+          <Form className="mt-1 w--70% flex flex--column align-items--c justify-content--c gap--sm">
+            <div
+              className={`text--danger p--sm ${
+                errorMessage === '' && 'display--none'
+              } `}
+              style={{ position: 'relative' }}>
+              <IoIosCloseCircle
+                className={`${
+                  errorMessage === '' && 'display--hidden'
+                } text--lg text--dark cursor--pointer`}
+                style={{
+                  position: 'absolute',
+                  right: 'var(--space-xxs)',
+                  top: 'var(--space-xxs)',
+                }}
+                onClick={() => {
+                  dispatch({ type: 'SET_ERROR_MESSAGE', payload: '' });
+                }}
+              />
+              {errorMessage}
+            </div>
+            {/* EMAIL */}
+            <div className="form-group">
+              <Field
+                type="text"
+                name="email"
+                className="form-control border-radius--sm p--xs"
+                placeholder="Email"
+              />
+              <ErrorMessage
+                name="email"
+                component="p"
+                className="text--danger"
+              />
+            </div>
+            <div className="form-group">
+              <Field
+                type="password"
+                name="password"
+                className="form-control border-radius--sm p--xs"
+                placeholder="Password"
+              />
+              <ErrorMessage
+                name="password"
+                component="p"
+                className="text--danger p--xxs "
+              />
+            </div>
+
+            {showLoader ? (
+              <LoaderDonutSpinner size="lg" variant="primary" />
+            ) : (
               <Btn
+                size="sm"
                 type="submit"
                 variant="primary"
-                className="border-radius--sm w--100%">
+                className="border-radius--sm w--70%">
                 Login
               </Btn>
-            </Form>
-          </Formik>
-        </div>
+            )}
+          </Form>
+        </Formik>
       </div>
-    </>
+    </div>
   );
 };

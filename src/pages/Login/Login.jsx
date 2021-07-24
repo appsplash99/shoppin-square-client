@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { IoIosCloseCircle } from 'react-icons/io';
-import { toast } from 'react-toastify';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LOGIN_ROUTE } from '../../utils/apiRoutes';
+import { IoIosCloseCircle } from 'react-icons/io';
 import { Btn, LoaderDonutSpinner } from 'morphine-ui';
+import { loginUser } from '../../utils/serverRequests';
 import { useCartState } from '../../context/cart-context';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { setLocalCredentials } from '../../utils/localStorage';
 import { loginValidationSchema } from '../../utils/formValidations';
 
 export const Login = (props) => {
@@ -30,29 +27,7 @@ export const Login = (props) => {
 
   // formik's handle submit
   const onSubmit = async (values) => {
-    try {
-      dispatch({ type: 'SHOW_LOADER' });
-      const response = await axios({
-        method: 'post',
-        url: LOGIN_ROUTE,
-        data: values,
-      });
-      if ([400, 401, 404].includes(response.status)) {
-        toast.error('Bad Response Error');
-      }
-      if (response.status === 200) {
-        const { userId, token, userEmail } = response.data;
-        // save token in local storage
-        setLocalCredentials(token, userId, userEmail);
-        toast.success('Login Successful');
-        navigate('/cart');
-      }
-      dispatch({ type: 'HIDE_LOADER' });
-    } catch (error) {
-      dispatch({ type: 'HIDE_LOADER' });
-      toast.error('Unable to login');
-      dispatch({ type: 'SET_ERROR_MESSAGE', payload: error.message });
-    }
+    loginUser({ dispatch, navigate, respBody: values });
   };
 
   return (

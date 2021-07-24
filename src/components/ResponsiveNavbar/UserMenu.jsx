@@ -7,7 +7,7 @@ import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
 import { DataBadgeIcon, Btn, BtnInverted } from 'morphine-ui';
 import { useCartState } from '../../context/cart-context';
 import { getLocalCredentials } from '../../utils/localStorage';
-import { logOutUser } from '../../utils/newServerRequests';
+import { logOutUser } from '../../utils/serverRequests';
 
 const UserMenu = () => {
   const { state, dispatch } = useCartState();
@@ -64,6 +64,7 @@ const UserMenu = () => {
       <Link className="nav__link text--primary" to="cart">
         <DataBadgeIcon
           variant="circular"
+          // TODO: Checkif userd correctly
           data={state && state.cartItems ? state.cartItems.length : 0}
           icon={<GiShoppingBag className="text--xl text--success" />}
           iconStyleProp={{ backgroundColor: 'inherit' }}

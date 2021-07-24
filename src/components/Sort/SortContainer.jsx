@@ -2,12 +2,13 @@ import { BtnIcon } from 'morphine-ui';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { useCartState } from '../../context/cart-context';
 import { ALL_PRODUCTS } from '../../utils/apiRoutes';
-import { loadProductsFromDB } from '../../utils/newServerRequests';
+import { loadProductsFromDB } from '../../utils/serverRequests';
 
-export const NewSortContainer = ({ handleCloseSortContainer }) => {
+export const SortContainer = ({ handleCloseSortContainer }) => {
   const {
     state: { sortBy, currentProductsApiRoute },
-    // dispatch,
+    state,
+    dispatch,
   } = useCartState();
 
   const handleOnchange = async (e) => {
@@ -23,7 +24,8 @@ export const NewSortContainer = ({ handleCloseSortContainer }) => {
     // TODO: getting sorted data but unable to add it to state
     console.log({ data });
     // dispatch({ type: 'SHOW_LOADER' });
-    // dispatch({ type: 'LOAD_PRODUCTS', payload: data });
+    dispatch({ type: 'LOAD_PRODUCTS', payload: data });
+    console.log({ state });
     // dispatch({ type: 'HIDE_LOADER' });
   };
 

@@ -2,17 +2,9 @@ import { Link } from 'react-router-dom';
 import { NavLogo } from './NavLogo';
 import { UserMenu } from './UserMenu';
 import { useCartState } from '../../context/cart-context';
-import {
-  ALL_PRODUCTS,
-  MENS_PRODUCT,
-  WOMENS_PRODUCT,
-} from '../../utils/apiRoutes';
 
 export const Navbar = ({ showMobileNav, setShowMobileNav }) => {
-  const {
-    // state: { currentProductsApiRoute },
-    dispatch: categoryDispatch,
-  } = useCartState();
+  const { dispatch } = useCartState();
 
   return (
     <ul
@@ -36,11 +28,7 @@ export const Navbar = ({ showMobileNav, setShowMobileNav }) => {
               to="/shop"
               className="nav__link resp-nav__mobile-link text--secondary"
               onClick={() => {
-                categoryDispatch({
-                  type: 'CHANGE_PRODUCT_CATEGORY',
-                  payload: { route: ALL_PRODUCTS },
-                });
-                // console.log({ currentProductsApiRoute });
+                dispatch({ type: 'FILTER_CATEGORY', payload: '' });
               }}>
               Shop
             </Link>
@@ -48,10 +36,7 @@ export const Navbar = ({ showMobileNav, setShowMobileNav }) => {
               to="/shop"
               className="nav__link resp-nav__desktop-link text--themeRed"
               onClick={() => {
-                categoryDispatch({
-                  type: 'CHANGE_PRODUCT_CATEGORY',
-                  payload: { route: ALL_PRODUCTS },
-                });
+                dispatch({ type: 'FILTER_CATEGORY', payload: '' });
               }}>
               Shop
             </Link>
@@ -61,10 +46,7 @@ export const Navbar = ({ showMobileNav, setShowMobileNav }) => {
               to="/men"
               className="nav__link text--primary"
               onClick={() => {
-                categoryDispatch({
-                  type: 'CHANGE_PRODUCT_CATEGORY',
-                  payload: { route: MENS_PRODUCT },
-                });
+                dispatch({ type: 'FILTER_CATEGORY', payload: 'men' });
               }}>
               Men
             </Link>
@@ -74,10 +56,7 @@ export const Navbar = ({ showMobileNav, setShowMobileNav }) => {
               to="/women"
               className="nav__link text--primary"
               onClick={() => {
-                categoryDispatch({
-                  type: 'CHANGE_PRODUCT_CATEGORY',
-                  payload: { route: WOMENS_PRODUCT },
-                });
+                dispatch({ type: 'FILTER_CATEGORY', payload: 'women' });
               }}>
               Women
             </Link>

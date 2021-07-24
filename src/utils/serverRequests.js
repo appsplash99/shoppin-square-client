@@ -7,7 +7,6 @@ import {
 } from './localStorage';
 import {
   BASE_URL,
-  ALL_PRODUCTS,
   CART_ROUTE,
   WISHLIST_ROUTE,
   LOGIN_ROUTE,
@@ -278,21 +277,4 @@ export const signUpUser = async ({ dispatch, navigate, userData }) => {
     toast.error('Failed to Signup');
     dispatch({ type: 'SET_ERROR_MESSAGE', payload: error.message });
   }
-};
-
-/** PAGINATION HANDLER */
-// TODO: Need to make it sync with currentProductsRouteApi in context
-export const getPaginatedProducts = async ({
-  e,
-  dispatch,
-  currentProductsApiRoute,
-  currentPage,
-}) => {
-  dispatch({ type: 'SET_CURRENT_PAGE', payload: e.selected });
-  let url = `${currentProductsApiRoute}&page=${currentPage}&limit=5`;
-  if (currentProductsApiRoute === ALL_PRODUCTS) {
-    url = `${currentProductsApiRoute}?page=${currentPage}&limit=5`;
-  }
-  // handle products of next page
-  loadProductsFromDB({ url, dispatch });
 };

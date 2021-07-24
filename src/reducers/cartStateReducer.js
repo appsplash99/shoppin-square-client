@@ -13,19 +13,30 @@ import {
   sortActions,
   loaderActions,
   paginationActions,
-  // errorActions,
+  errorActions,
   userActions,
 } from './actions';
 
 export const cartStateReducer = (prevState, action) => {
   switch (action.type) {
-    /** */
+    /** Paginated Actions */
     case paginationActions.SET_TOTAL_PAGES: {
       return {
         ...prevState,
         pagination: {
           ...prevState.pagination,
           totalPages: action.payload.totalPages,
+        },
+      };
+    }
+
+    case paginationActions.SET_CURRENT_PAGE: {
+      console.log({ currentPage: action.payload });
+      return {
+        ...prevState,
+        pagination: {
+          ...prevState.pagination,
+          currentPage: action.payload,
         },
       };
     }
@@ -54,9 +65,9 @@ export const cartStateReducer = (prevState, action) => {
       };
 
     /** ERROR ACTIONS */
-    // case errorActions.SET_ERROR_MESSAGE:
-    //   console.log('Error Set');
-    //   return { ...prevState, errorMessage: action.payload };
+    case errorActions.SET_ERROR_MESSAGE:
+      console.log('Error Set');
+      return { ...prevState, errorMessage: action.payload };
 
     /**PRODUCTS ACTIONS */
     case shoppingProductsAction.LOAD_PRODUCTS:
@@ -72,7 +83,14 @@ export const cartStateReducer = (prevState, action) => {
 
     case shoppingProductsAction.CHANGE_PRODUCT_CATEGORY:
       console.log(prevState.currentProductsApiRoute);
-      return { ...prevState, currentProductsApiRoute: action.payload.route };
+      return {
+        ...prevState,
+        currentProductsApiRoute: action.payload.route,
+        pagination: {
+          ...prevState.pagination,
+          currentPage: 0,
+        },
+      };
 
     /**CART ACTIONS */
     case cartActions.LOAD_CART_ITEMS:

@@ -45,6 +45,7 @@ export const cartStateReducer = (prevState, action) => {
           sortBy: prevState.sortBy,
           filterObj: { ...prevState.filterObj, is_new_product: action.payload },
         }),
+        // pagination: {...prevState.pagination}
       };
     }
 
@@ -118,8 +119,16 @@ export const cartStateReducer = (prevState, action) => {
         ...prevState,
         pagination: {
           ...prevState.pagination,
+          // update context with latest value
           currentPage: action.payload,
         },
+        currentProductsApiRoute: makeProductsApiUrl({
+          allProductsApi: ALL_PRODUCTS,
+          filterObj: prevState.filterObj,
+          sortBy: prevState.sortBy,
+          // use Latest value to make api Route
+          currentPage: action.payload,
+        }),
       };
     }
 

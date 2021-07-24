@@ -1,36 +1,19 @@
 import { BtnIcon } from 'morphine-ui';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { useCartState } from '../../context/cart-context';
-import { ALL_PRODUCTS } from '../../utils/apiRoutes';
-import { loadProductsFromDB } from '../../utils/serverRequests';
 
 export const SortContainer = ({ handleCloseSortContainer }) => {
   const {
-    state: { sortBy, currentProductsApiRoute },
-    state,
+    state: { sortBy },
     dispatch,
   } = useCartState();
 
   const handleOnchange = async (e) => {
     const sortingValue = e.target.value;
-    let url;
-    if (currentProductsApiRoute === ALL_PRODUCTS) {
-      url = `${currentProductsApiRoute}?sort=${sortingValue}`;
-    } else {
-      url = `${currentProductsApiRoute}&sort=${sortingValue}`;
-    }
-    console.log({ sortingValue, url });
-    const { data } = await loadProductsFromDB(url);
-    // TODO: getting sorted data but unable to add it to state
-    console.log({ data });
-    // dispatch({ type: 'SHOW_LOADER' });
-    dispatch({ type: 'LOAD_PRODUCTS', payload: data });
-    console.log({ state });
-    // dispatch({ type: 'HIDE_LOADER' });
+    dispatch({ type: 'SORT', payload: sortingValue });
   };
 
   return (
-    // <div className="sort-container">
     <div
       style={{
         position: 'absolute',
@@ -51,108 +34,108 @@ export const SortContainer = ({ handleCloseSortContainer }) => {
         <div className="flex flex--column gap--sm align-items--fs justify-content--c">
           {/* PRODUCTS SORTER */}
           <div>
-            <label className="text--sm">
+            <label className="text--sm cursor--pointer">
               <input
                 type="radio"
                 name="sort"
                 value="price_asc"
                 className="mx--sm radio-btn"
                 onChange={async (e) => handleOnchange(e)}
-                checked={sortBy}
+                checked={sortBy === 'price_asc'}
               />
               Price (Lowest First)
             </label>
           </div>
           <div>
-            <label className="text--sm">
+            <label className="text--sm cursor--pointer">
               <input
                 type="radio"
                 name="sort"
                 value="price_desc"
                 className="mx--sm radio-btn"
                 onChange={async (e) => handleOnchange(e)}
-                checked={sortBy}
+                checked={sortBy === 'price_desc'}
               />
               Price (Highest First)
             </label>
           </div>
           {/* Discount SORTER */}
           <div>
-            <label className="text--sm">
+            <label className="text--sm cursor--pointer">
               <input
                 type="radio"
                 name="sort"
                 value="discount_asc"
                 className="mx--sm radio-btn"
                 onChange={async (e) => handleOnchange(e)}
-                checked={sortBy}
+                checked={sortBy === 'discount_asc'}
               />
               Discount (Lowest First)
             </label>
           </div>
           <div>
-            <label className="text--sm">
+            <label className="text--sm cursor--pointer">
               <input
                 type="radio"
                 name="sort"
                 value="discount_desc"
                 className="mx--sm radio-btn"
                 onChange={async (e) => handleOnchange(e)}
-                checked={sortBy}
+                checked={sortBy === 'discount_desc'}
               />
               Discount (Highest First)
             </label>
           </div>
           {/* Ratings SORTER */}
           <div>
-            <label className="text--sm">
+            <label className="text--sm cursor--pointer">
               <input
                 type="radio"
                 name="sort"
                 value="ratings_asc"
                 className="mx--sm radio-btn"
                 onChange={async (e) => handleOnchange(e)}
-                checked={sortBy}
+                checked={sortBy === 'ratings_asc'}
               />
               Ratings (Lowest First)
             </label>
           </div>
           <div>
-            <label className="text--sm">
+            <label className="text--sm cursor--pointer">
               <input
                 type="radio"
                 name="sort"
                 value="ratings_desc"
                 className="mx--sm radio-btn"
                 onChange={async (e) => handleOnchange(e)}
-                checked={sortBy}
+                checked={sortBy === 'ratings_desc'}
               />
               Ratings (Highest First)
             </label>
           </div>
           {/* Number of Ratings SORTER */}
           <div>
-            <label className="text--sm">
+            <label className="text--sm cursor--pointer">
               <input
                 type="radio"
                 name="sort"
                 className="mx--sm radio-btn"
                 value="number_of_ratings_asc"
                 onChange={async (e) => handleOnchange(e)}
-                checked={sortBy}
+                checked={sortBy === 'number_of_ratings_asc'}
               />
               Least Number of Ratings
             </label>
           </div>
           <div>
-            <label className="text--sm">
+            <label className="text--sm cursor--pointer">
               <input
                 type="radio"
                 name="sort"
                 value="number_of_ratings_desc"
                 className="mx--sm radio-btn"
                 onChange={async (e) => handleOnchange(e)}
-                checked={sortBy}
+                checked={sortBy === 'number_of_ratings_desc'}
               />
               Most Number of Ratings
             </label>

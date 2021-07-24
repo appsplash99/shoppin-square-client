@@ -7,9 +7,14 @@ import {
   REGISTER_ROUTE,
 } from './apiRoutes';
 import { isProductInArray } from './array-functions';
-import { removeLocalCredentials, setLocalCredentials } from './localStorage';
+import {
+  removeLocalCredentials,
+  setLocalCredentials,
+  getLocalCredentials,
+} from './localStorage';
 import { toast } from 'react-toastify';
 
+/** PRODUCTS ROUTE HANDLERS */
 export const loadProductsFromDB = async (url, token) => {
   const res = await axios({
     method: 'GET',
@@ -132,6 +137,7 @@ export const productAddToWishlist = async (
   }
 };
 
+/** WISHLIST ROUTE HANDLERS */
 export const wishlistManipulation = async (
   state,
   dispatch,
@@ -149,6 +155,31 @@ export const wishlistManipulation = async (
   }
 };
 
+export const getUserWishlistItems = async ({ dispatch }) => {
+  try {
+    dispatch({ type: 'SHOW_LOADER' });
+    const { token, userId } = getLocalCredentials();
+    const {
+      data: { success, userWishlist },
+    } = await axios({
+      method: 'GET',
+      url: WISHLIST_ROUTE + `/${userId}`,
+      headers: { Authorization: token },
+    });
+    if (success) {
+      dispatch({
+        type: 'LOAD_WISHLIST_ITEMS',
+        payload: userWishlist.wishlistItems,
+      });
+    }
+    dispatch({ type: 'HIDE_LOADER' });
+  } catch (error) {
+    dispatch({ type: 'HIDE_LOADER' });
+    toast.error('Unable to fetch User Wishlist');
+  }
+};
+
+/** CART ROUTE HANDLERS */
 export const updateCartItemQtyInDb = async (
   quantity,
   dispatch,
@@ -172,6 +203,30 @@ export const updateCartItemQtyInDb = async (
   }
 };
 
+export const getUserCartItems = async ({ dispatch }) => {
+  try {
+    dispatch({ type: 'SHOW_LOADER' });
+    const { token, userId } = getLocalCredentials();
+    const newResp = await axios({
+      method: 'GET',
+      url: CART_ROUTE + `/${userId}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    });
+    dispatch({
+      type: 'LOAD_CART_ITEMS',
+      payload: newResp.data.cart?.cartItems,
+    });
+    dispatch({ type: 'HIDE_LOADER' });
+  } catch (error) {
+    dispatch({ type: 'HIDE_LOADER' });
+    toast.error('Unable to get user Cart');
+  }
+};
+
+/** USER ROUTE HANDLERS */
 export const logOutUser = async (dispatch) => {
   removeLocalCredentials();
   dispatch({ type: 'LOG_OUT_USER' });

@@ -6,26 +6,19 @@ const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
   const initialState = {
+    currentProductsApiRoute: ALL_PRODUCTS,
+    sortBy: null,
+    filterObj: {},
     shoppingItems: [],
     wishlistItems: [],
     cartItems: [],
-    showLoader: false,
     pagination: {
       totalPages: 0,
-      currentPage: 0 ,
+      currentPage: null,
     },
-    sortBy: null,
-    showAllInventory: false,
-    showFastDeliveryOnly: false,
-    currentProductsApiRoute: ALL_PRODUCTS,
     errorMessage: '',
-    toast: {
-      value: false,
-      message: '',
-    },
   };
   const [state, dispatch] = useReducer(cartStateReducer, initialState);
-
   return (
     <CartContext.Provider
       value={{

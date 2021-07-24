@@ -1,91 +1,55 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './Shop.css';
 import {
   productAddToCart,
   productAddToWishlist,
-} from '../../utils/newServerRequests';
-import { ImEye } from 'react-icons/im';
+  getPaginatedProducts,
+} from '../../utils/serverRequests';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartState } from '../../context/cart-context';
-// TODO: REPLACE TOAST BY REACT TOASTIFY
-// import { Toast } from '../../components';
-// import { Sort } from '../../components/Sort/Sort';
-// import { Filter } from '../../components/Filter/Filter';
+import { Sort, Filter } from '../../components/';
 import { getLocalCredentials } from '../../utils/localStorage';
 import { isProductInArray } from '../../utils/array-functions';
-import { loadProductsFromDB } from '../../utils/newServerRequests';
+import { loadProductsFromDB } from '../../utils/serverRequests';
 import { Btn, ProductCardVertical, LoaderDonutSpinner } from 'morphine-ui';
 import ReactPaginate from 'react-paginate';
-import { ALL_PRODUCTS } from '../../utils/apiRoutes';
+import { toast } from 'react-toastify';
 
 export const Shop = () => {
   const navigate = useNavigate();
   const { token, userId } = getLocalCredentials();
-  const [isLoading, setIsLoading] = useState(false);
   // const [showProductsPerPage, setShowProductsPerPage] = useState(false);
   // const [numOfProducts, setNumOfProducts] = useState(0);
 
   const {
     state: {
-      // toast,
-      // showLoader,
-      // cartItems,
+      pagination: { totalPages, currentPage },
+      currentProductsApiRoute,
       shoppingItems,
       wishlistItems,
-      currentProductsApiRoute,
-      pagination: { totalPages },
-      // sortBy,
-      // showFastDeliveryOnly,
-      // showAllInventory,
+      showLoader,
+      cartItems,
+      filterObj,
+      sortBy,
     },
-    state,
     dispatch,
   } = useCartState();
 
-  // pagination states
-  // const [pageCount, setPageCount] = useState(0);
-
   const handlePageClick = async (e) => {
-    setIsLoading(true);
-    // dispatch({ type: 'SHOW_LOADER' });
-    const selectedPage = e.selected;
-    // setOffset(selectedPage + 1);
-
-    let url = `${currentProductsApiRoute}&page=${selectedPage + 1}&limit=5`;
-
-    if (currentProductsApiRoute === ALL_PRODUCTS) {
-      url = `${currentProductsApiRoute}?page=${selectedPage + 1}&limit=5`;
-    }
-    // handle products of next page
-
-    const { data } = await loadProductsFromDB(url);
-    dispatch({ type: 'LOAD-PRODUCTS', payload: data });
-    setIsLoading(false);
-    // dispatch({ type: 'HIDE_LOADER' });
+    getPaginatedProducts({
+      e,
+      dispatch,
+      currentPage,
+      currentProductsApiRoute,
+    });
   };
 
   useEffect(() => {
-    (async () => {
-      try {
-        setIsLoading(true);
-        // dispatch({ type: 'SHOW_LOADER' });
-        const { data } = await loadProductsFromDB(currentProductsApiRoute);
-        dispatch({ type: 'LOAD-PRODUCTS', payload: data });
-        // setPageCount(data.totalPages);
-        setIsLoading(false);
-        // dispatch({ type: 'HIDE_LOADER' });
-        //
-      } catch (error) {
-        setIsLoading(false);
-        // dispatch({ type: 'HIDE_LOADER' });
-        console.log(error);
-      }
-    })();
-  }, [dispatch, currentProductsApiRoute]);
+    loadProductsFromDB({ url: currentProductsApiRoute, dispatch });
+  }, [dispatch, currentProductsApiRoute, filterObj, sortBy]);
 
-  if (isLoading && !shoppingItems.length > 0) {
-    // if (showLoader) {
+  if (showLoader) {
     return (
       <div
         className="flex align-items--c justify-content--c"
@@ -100,25 +64,16 @@ export const Shop = () => {
 
   return (
     <div>
-      {/* <div
-        className="flex align-items--c justify-content--c"
-        style={{
-          height: 'calc(100vh - 8vh)',
-          display: isLoading && !shoppingItems.length > 0 ? 'flex' : 'none',
-        }}>
-        <LoaderDonutSpinner size="xxl" variant="primary" />
-      </div> */}
       <div
         className="shop-container flex flex--column gap--sm pt--xs"
         style={{ display: !shoppingItems ? 'none' : '', margin: '0 auto' }}>
         <div
           className="paginated-sort-and-filter flex flex-wrap--wrap align-items--c justify-content--c gap--sm w--70%"
           style={{ margin: '0 auto' }}>
-          {/* <Filter /> */}
+          <Filter />
           {/* TODO: add this like ajio */}
           {/* <div>Product Grid Changer</div> */}
-          {/* TODO: SORTING */}
-          {/* <Sort /> */}
+          <Sort />
         </div>
         <ReactPaginate
           previousLabel={'prev'}
@@ -129,16 +84,15 @@ export const Shop = () => {
           marginPagesDisplayed={0}
           pageRangeDisplayed={5}
           onPageChange={handlePageClick}
+          forcePage={currentPage}
           containerClassName={'pagination'}
           subContainerClassName={'pages pagination'}
           activeClassName={'active'}
+          disabledClassName={'disable-pagination-button'}
         />
-        {/* TODO: REplace toast with react-toastify */}
-        {/* {toast.message && <Toast message={toast.message} />} */}
         <main className="flex flex-wrap--wrap align-items--c justify-content--c gap--sm">
           {shoppingItems &&
             shoppingItems.map((product) => {
-              // filteredData.map((product) => {
               const {
                 // _id,
                 brandName,
@@ -163,31 +117,33 @@ export const Shop = () => {
                     rating={ratings}
                     numberOfRatings={numberOfRatings}
                     offer={offer}
+                    sale={sale}
+                    handleGoToProductDetail={() =>
+                      navigate(`/product/${product._id}`)
+                    }
                     isWishlistItem={
                       wishlistItems && isProductInArray(wishlistItems, product)
                     }
-                    sale={sale}
+                    handleGoToWishlist={() => navigate('/wishlist')}
                     handleAddToWishlist={async () => {
-                      productAddToWishlist(
-                        dispatch,
-                        token,
-                        userId,
-                        product._id
-                      );
-                      dispatch({
-                        type: 'ADD-OR-REMOVE-FROM-WISHLIST',
-                        payload: product,
-                      });
-                      if (
-                        wishlistItems &&
-                        isProductInArray(wishlistItems, product)
-                      ) {
-                        navigate('/wishlist');
+                      if (token) {
+                        productAddToWishlist(
+                          dispatch,
+                          token,
+                          userId,
+                          product._id
+                        );
+                        dispatch({
+                          type: 'ADD_OR_REMOVE_FROM_WISHLIST',
+                          payload: product,
+                        });
+                      } else {
+                        toast.info('Please Login');
+                        navigate('/login');
                       }
                     }}
                     isCartItem={
-                      state?.cartItems &&
-                      isProductInArray(state?.cartItems, product)
+                      cartItems && isProductInArray(cartItems, product)
                     }
                     handleAddToCart={async (e) => {
                       if (token) {
@@ -198,43 +154,27 @@ export const Shop = () => {
                           userId,
                           product._id
                         );
-                        navigate('/cart');
                       } else {
+                        toast.info('Please Login');
                         navigate('/login');
                       }
                     }}
                     goToCartBtn={
-                      <div className="flex gap--xxs align-items--c justify-content--sb">
-                        <Link to="/cart">
-                          <Btn
-                            size="sm"
-                            variant="primary"
-                            shape="square"
-                            style={{
-                              width: '100%',
-                              fontWeight: '500',
-                            }}>
-                            <div className="flex align-items--c justify-content--c gap">
-                              <FaShoppingCart className="text--md" />
-                              Go To Cart
-                            </div>
-                          </Btn>
-                        </Link>
-                        <Link to={`/product/${product._id}`}>
-                          <Btn
-                            size="sm"
-                            variant="primary"
-                            shape="square"
-                            style={{
-                              width: '100%',
-                              fontWeight: '500',
-                            }}>
-                            <div className="flex align-items--c justify-content--c gap">
-                              <ImEye className="text--md" />
-                            </div>
-                          </Btn>
-                        </Link>
-                      </div>
+                      <Link to="/cart">
+                        <Btn
+                          size="sm"
+                          variant="primary"
+                          shape="square"
+                          style={{
+                            width: '100%',
+                            fontWeight: '500',
+                          }}>
+                          <div className="flex align-items--c justify-content--c gap">
+                            <FaShoppingCart className="text--md" />
+                            Go To Cart
+                          </div>
+                        </Btn>
+                      </Link>
                     }
                   />
                 </div>

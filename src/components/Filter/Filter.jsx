@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 import { IoIosArrowDown, IoIosArrowBack } from 'react-icons/io';
 import { Btn } from 'morphine-ui';
-import { NewFilterContainer } from '../NewSortAndFilter/NewFilterContainer';
+import { FilterContainer } from './FilterContainer';
 
 export const Filter = () => {
   const [showFilterContainer, setShowFilterContainer] = useState(false);
@@ -21,7 +21,7 @@ export const Filter = () => {
         {showFilterContainer ? <IoIosArrowDown /> : <IoIosArrowBack />}
       </Btn>
       {showFilterContainer && (
-        <NewFilterContainer
+        <FilterContainer
           handleCloseFilterContainer={() => setShowFilterContainer(false)}
         />
       )}

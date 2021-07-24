@@ -97,28 +97,9 @@ export const cartStateReducer = (prevState, action) => {
       console.log('cartItems loaded');
       return { ...prevState, cartItems: action.payload };
 
-    // case cartActions.ADD_TO_CART:
-    //   console.log('ITEM Added to cart');
-    //   return { ...prevState, cartItems: action.payload };
-
-    // case cartActions.REMOVE_FROM_CART:
-    //   console.log('ITEM removed from cart');
-    //   // While Removing an Item from cart, show a modal for confirmation
-    //   return {
-    //     ...prevState,
-    //     cartItems: removeExistingProductFromArray(
-    //       prevState.cartItems,
-    //       action.payload
-    //     ),
-    //   };
-
     /**WISHLIST ACTIONS */
     case wishlistActions.LOAD_WISHLIST_ITEMS:
       console.log('wishlist Items loaded');
-      return { ...prevState, wishlistItems: action.payload };
-
-    case wishlistActions.LOAD_EXISTING_WISHLIST_ITEMS_AFTER_ADD_OR_REMOVE:
-      console.log('added to wishlistItems');
       return { ...prevState, wishlistItems: action.payload };
 
     case wishlistActions.ADD_OR_REMOVE_FROM_WISHLIST:
@@ -134,16 +115,6 @@ export const cartStateReducer = (prevState, action) => {
               prevState.wishlistItems,
               action.payload
             ),
-      };
-
-    case wishlistActions.REMOVE_FROM_WISHLIST:
-      console.log('Item Removed from Wishlist');
-      return {
-        ...prevState,
-        wishlistItems: removeExistingProductFromArray(
-          prevState.wishlistItems,
-          action.payload
-        ),
       };
 
     /**SORT AND FILTER ACTIONS */

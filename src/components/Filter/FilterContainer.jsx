@@ -98,7 +98,7 @@ export const FilterContainer = ({ handleCloseFilterContainer }) => {
                     filterObj,
                     filterType: 'fastDelivery',
                     dispatch,
-                    dispatchType: 'FILTER_SALE_ITEM',
+                    dispatchType: 'FILTER_FAST_DELIVERY',
                     payloadForTrue: true,
                     payloadforFalse: '',
                   })

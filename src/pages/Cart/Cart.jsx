@@ -52,8 +52,17 @@ export const Cart = () => {
                 Subtotal ({totalProductsInArray(cartItems)} items): ₹{' '}
                 {totalProductPrice(cartItems).toFixed(2)}
               </div>
-              {/* TODO: IMPLEMENT CHECKOUT */}
-              <BtnInverted variant="primary" shape="capsule" sm="md">
+              <BtnInverted
+                variant="success"
+                shape="capsule"
+                sm="md"
+                onClick={() => {
+                  navigate('/checkout');
+                  dispatch({
+                    type: 'SET_CART_TOTAL',
+                    payload: totalProductPrice(cartItems).toFixed(2),
+                  });
+                }}>
                 <div className="font-weight--500">Proceed to Checkout</div>
               </BtnInverted>
             </div>

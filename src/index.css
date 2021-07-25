@@ -40,3 +40,11 @@ code {
 .cursor--pointer {
   cursor: pointer;
 }
+
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border-style: none;
+}

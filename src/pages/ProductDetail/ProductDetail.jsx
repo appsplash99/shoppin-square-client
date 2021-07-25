@@ -6,7 +6,7 @@ import { MdEventAvailable } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import ReactImageMagnify from 'react-image-magnify';
 import { ALL_PRODUCTS } from '../../utils/apiRoutes';
-import { LoaderDonutSpinner } from 'morphine-ui';
+import { LoaderDonutSpinner, Btn } from 'morphine-ui';
 import { AddToCartBtn } from './AddToCartBtn';
 import { AddToWishlistBtn } from './AddToWIshlistBtn';
 
@@ -90,6 +90,11 @@ export const ProductDetail = () => {
         <div className="flex flex--column align-items--fs justify-self--fs w--70% gap--xs">
           <h1 className="font-weight--600">{desiredProduct?.brandName}</h1>
           <p className="text-align--l">{desiredProduct?.description}</p>
+          {desiredProduct?.sale && (
+            <div className="flex align-items--c justify-self--fs gap--sm">
+              <p className="p--xxs bg--themeRed text--light">Sale Item</p>
+            </div>
+          )}
           {desiredProduct?.fastDelivery && (
             <div className="flex align-items--c justify-self--fs gap--sm">
               <FaShippingFast className="text--primary text--xl" />
@@ -99,7 +104,7 @@ export const ProductDetail = () => {
           {desiredProduct?.isNewProduct && (
             <div className="flex align-items--c justify-self--fs gap--sm">
               <MdEventAvailable className="text--primary text--xl" />
-              <p>Newest roduct</p>
+              <p>Newest Product</p>
             </div>
           )}
           {desiredProduct?.inStock && (
@@ -134,7 +139,13 @@ export const ProductDetail = () => {
             </div>
           )}
           <div className="flex align-items--c gap--xs">
-            <AddToCartBtn desiredProduct={desiredProduct} />
+            {desiredProduct?.inStock ? (
+              <AddToCartBtn desiredProduct={desiredProduct} />
+            ) : (
+              <Btn size="sm" shape="capsule" style={{ cursor: 'no-drop' }}>
+                Out of Stock
+              </Btn>
+            )}
             <AddToWishlistBtn desiredProduct={desiredProduct} />
           </div>
         </div>

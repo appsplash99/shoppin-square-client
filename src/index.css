@@ -32,7 +32,7 @@ code {
 }
 
 /* for stripe form */
-input {
+.FormRowInput {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

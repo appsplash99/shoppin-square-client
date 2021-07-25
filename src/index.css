@@ -42,8 +42,8 @@ code {
 
 /* for formik forms */
 .form-group > input {
-  outline-style: solid;
-  outline-color: var(--themePrimary);
-  outline-width: 2px;
-  border-style: none;
+  border-style: solid;
+  border: none;
+  border-width: 1px;
+  border: 2px solid var(--themePrimary);
 }

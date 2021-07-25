@@ -1,58 +1,127 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCartState } from '../../context/cart-context';
+import { menImage, womenImage, handleFilterOnChange } from '../../utils/utils';
+import { AiFillDollarCircle, AiFillStar } from 'react-icons/ai';
+import { FaShippingFast } from 'react-icons/fa';
+import { Btn } from 'morphine-ui';
 
 export const Home = () => {
-  const { dispatch } = useCartState();
+  const {
+    state: { filterObj },
+    dispatch,
+  } = useCartState();
+  const navigate = useNavigate();
 
-  const womenImage =
-    'https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/productimage/2021/4/19/ec68db24-422b-4755-802d-9b7cf1b4e11b1618806979607-1.jpg';
-
-  const menImage =
-    'https://assets.myntassets.com/f_webp,dpr_1.5,q_60,w_210,c_limit,fl_progressive/assets/images/11067734/2019/12/10/34b589c2-80b9-4ad9-81ea-84333fbc46761575972548055-DILLINGER-Men-Tshirts-4071575972546110-1.jpg';
+  const linkStyles = {
+    position: 'absolute',
+    bottom: 'var(--space-md)',
+    right: '0',
+    left: '0',
+    backgroundColor: 'black',
+    width: '70%',
+    margin: '0 auto',
+    borderRadius: 'var(--space-lg)',
+  };
 
   return (
-    <div
-      style={{ height: '92vh' }}
-      className="flex flex-wrap--wrap align-items--c justify-content--c gap">
-      <div>
-        <div style={{ position: 'relative' }}>
-          <img src={menImage} alt="men" />
-          <Link
-            to="/men"
-            style={{
-              position: 'absolute',
-              bottom: '1rem',
-              right: '0',
-              backgroundColor: 'black',
-              width: '100%',
-            }}
-            className="text-decoration--none text--xxl font-weight--700 text--light"
-            onClick={() => {
-              dispatch({ type: 'FILTER_CATEGORY', payload: 'men' });
-            }}>
-            Men
-          </Link>{' '}
+    <div className="flex flex--column flex-wrap--wrap gap--lg mt--lg mb--lg">
+      <h2
+        className="bg--dark text--light w--50% p--md border-radius--xl"
+        style={{ margin: '0 auto' }}>
+        Shop by Category
+      </h2>
+      <div className="flex flex-wrap--wrap align-items--c justify-content--c gap--lg">
+        <div>
+          <div
+            style={{ position: 'relative' }}
+            className="flex flex--column align-items--c justify-content--c">
+            <img className="border-radius--sm" src={menImage} alt="men" />
+            <Link
+              to="/men"
+              style={linkStyles}
+              className="text-decoration--none text--xxl font-weight--700 text--light"
+              onClick={() => {
+                dispatch({ type: 'FILTER_CATEGORY', payload: 'men' });
+              }}>
+              Men
+            </Link>{' '}
+          </div>
+        </div>
+        <div>
+          <div style={{ position: 'relative' }}>
+            <img className="border-radius--sm" src={womenImage} alt="men" />
+            <Link
+              to="/women"
+              style={linkStyles}
+              className="text-decoration--none text--xxl font-weight--700 text--light"
+              onClick={() => {
+                dispatch({ type: 'FILTER_CATEGORY', payload: 'women' });
+              }}>
+              Women
+            </Link>{' '}
+          </div>
         </div>
       </div>
-      <div>
-        <div style={{ position: 'relative' }}>
-          <img src={womenImage} alt="men" />
-          <Link
-            to="/women"
-            style={{
-              position: 'absolute',
-              bottom: '1rem',
-              right: '0',
-              backgroundColor: 'black',
-              width: '100%',
-            }}
-            className="text-decoration--none text--xxl font-weight--700 text--light"
+      <div
+        style={{ border: '4px solid var(--themeDark)', margin: '0 auto' }}
+        className="flex flex--column align-items--c justify-content--c gap border-radius--sm">
+        <h2 className="bg--dark w--100% p--sm text--light">Or Shop By</h2>
+        <div className="flex align-items--c justify-content--c gap--md p ">
+          <Btn
+            size="sm"
+            variant="light"
             onClick={() => {
-              dispatch({ type: 'FILTER_CATEGORY', payload: 'women' });
-            }}>
-            Women
-          </Link>{' '}
+              handleFilterOnChange({
+                filterObj,
+                filterType: 'is_new_product',
+                dispatch,
+                dispatchType: 'FILTER_SALE_ITEM',
+                payloadForTrue: true,
+                payloadforFalse: '',
+              });
+              navigate('/shop');
+            }}
+            className="border-radius--sm flex flex--column align-items--c justify-content--c gap--sm">
+            <FaShippingFast className="text--xxxl" />
+            Sale Items
+          </Btn>
+          <Btn
+            size="sm"
+            variant="light"
+            onClick={() => {
+              handleFilterOnChange({
+                filterObj,
+                filterType: 'is_new_product',
+                dispatch,
+                dispatchType: 'FILTER_IS_NEW_PRODUCT',
+                payloadForTrue: true,
+                payloadforFalse: '',
+              });
+              navigate('/shop');
+            }}
+            className="border-radius--sm flex flex--column align-items--c justify-content--c gap--sm">
+            <AiFillDollarCircle className="text--xxxl" />
+            New Products
+          </Btn>
+          <Btn
+            size="sm"
+            variant="light"
+            onClick={() => {
+              handleFilterOnChange({
+                filterObj,
+                filterType: 'fastDelivery',
+                dispatch,
+                dispatchType: 'FILTER_FAST_DELIVERY',
+                payloadForTrue: true,
+                payloadforFalse: '',
+              });
+              navigate('/shop');
+            }}
+            className="border-radius--sm flex flex--column align-items--c justify-content--c gap--sm">
+            <AiFillStar className="text--xxxl" />
+            Fast Delivery
+          </Btn>
         </div>
       </div>
     </div>

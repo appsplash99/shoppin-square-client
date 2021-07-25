@@ -4,6 +4,7 @@ export const shoppingProductsAction = {
 
 export const cartActions = {
   LOAD_CART_ITEMS: 'LOAD_CART_ITEMS',
+  SET_CART_TOTAL: 'SET_CART_TOTAL',
 };
 
 export const wishlistActions = {

@@ -162,6 +162,9 @@ export const cartStateReducer = (prevState, action) => {
     case cartActions.LOAD_CART_ITEMS:
       return { ...prevState, cartItems: action.payload };
 
+    case cartActions.SET_CART_TOTAL:
+      return { ...prevState, cartTotal: action.payload };
+
     case wishlistActions.LOAD_WISHLIST_ITEMS:
       return { ...prevState, wishlistItems: action.payload };
 

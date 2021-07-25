@@ -18,6 +18,7 @@ const CartProvider = ({ children }) => {
       currentPage: 0,
     },
     errorMessage: '',
+    cartTotal: 0,
   };
   const [state, dispatch] = useReducer(cartStateReducer, initialState);
   return (

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { GiShoppingBag } from 'react-icons/gi';
-// import { FcLike, FcBusinesswoman } from 'react-icons/fc';
 import { FcLike } from 'react-icons/fc';
 import { FaUserPlus } from 'react-icons/fa';
 import { RiLoginCircleFill, RiLogoutCircleRFill } from 'react-icons/ri';
@@ -8,6 +7,7 @@ import { DataBadgeIcon, Btn, BtnInverted } from 'morphine-ui';
 import { useCartState } from '../../context/cart-context';
 import { getLocalCredentials } from '../../utils/localStorage';
 import { logOutUser } from '../../utils/serverRequests';
+import { totalProductsInArray } from '../../utils/array-functions';
 
 const UserMenu = () => {
   const { state, dispatch } = useCartState();
@@ -64,8 +64,9 @@ const UserMenu = () => {
       <Link className="nav__link text--primary" to="cart">
         <DataBadgeIcon
           variant="circular"
-          // TODO: Checkif userd correctly
-          data={state && state.cartItems ? state.cartItems.length : 0}
+          data={
+            state && state.cartItems ? totalProductsInArray(state.cartItems) : 0
+          }
           icon={<GiShoppingBag className="text--xl text--success" />}
           iconStyleProp={{ backgroundColor: 'inherit' }}
           badgeDataStyleProp={{
@@ -75,19 +76,6 @@ const UserMenu = () => {
             color: 'var(--light)',
           }}></DataBadgeIcon>
       </Link>
-      {/* TODO: ADD USER PROFILE */}
-      {/* <Link className="nav__link text--primary" to="user-profile">
-        <DataBadgeIcon
-          variant="circular"
-          icon={<FcBusinesswoman className="text--xl" />}
-          iconStyleProp={{ backgroundColor: 'inherit' }}
-          badgeDataStyleProp={{
-            top: 0,
-            backgroundColor: 'var(--themeRed)',
-            margin: 0,
-            color: 'var(--light)',
-          }}></DataBadgeIcon>
-      </Link> */}
       <Link className="nav__link text--primary" to="/">
         <DataBadgeIcon
           variant="circular"

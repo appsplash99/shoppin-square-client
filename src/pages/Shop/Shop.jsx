@@ -18,8 +18,6 @@ import { toast } from 'react-toastify';
 export const Shop = () => {
   const navigate = useNavigate();
   const { token, userId } = getLocalCredentials();
-  // const [showProductsPerPage, setShowProductsPerPage] = useState(false);
-  // const [numOfProducts, setNumOfProducts] = useState(0);
 
   const {
     state: {
@@ -97,10 +95,17 @@ export const Shop = () => {
                 numberOfRatings,
                 offer,
                 sale,
+                isNewProduct,
+                fastDelivery,
+                inStock,
               } = product;
               return (
                 <div key={product._id}>
                   <ProductCardVertical
+                    sale={sale}
+                    inStock={inStock}
+                    isNewProduct={isNewProduct}
+                    fastDelivery={fastDelivery}
                     name={brandName}
                     image={images[0]}
                     description={description}
@@ -110,7 +115,6 @@ export const Shop = () => {
                     rating={ratings}
                     numberOfRatings={numberOfRatings}
                     offer={offer}
-                    sale={sale}
                     handleGoToProductDetail={() =>
                       navigate(`/product/${product._id}`)
                     }

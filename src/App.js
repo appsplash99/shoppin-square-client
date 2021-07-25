@@ -1,23 +1,14 @@
 import { useState, useEffect } from 'react';
 import './index.css';
 import axios from 'axios';
-import { PrivateRoute, ResponsiveNavbar } from './components';
+import { ResponsiveNavbar } from './components';
 import { BASE_URL } from './utils/apiRoutes';
 import { LoaderDonutSpinner } from 'morphine-ui';
-import { Routes, Route } from 'react-router-dom';
 import { useCartState } from './context/cart-context';
 import { getLocalCredentials } from './utils/localStorage';
-import { UserProfile } from './pages/UserProfile/UserProfile';
-import {
-  Cart,
-  Shop,
-  Wishlist,
-  Login,
-  Signup,
-  ProductDetail,
-  Home,
-} from './pages';
+
 import { ToastContainer } from 'react-toastify';
+import { AppRoutes } from './components/AppRoutes/AppRoutes';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -52,45 +43,23 @@ export default function App() {
     setIsLoading(false);
   }, [userId, token, dispatch]);
 
-  return (
-    <div className="App">
+  if (isLoading) {
+    return (
       <div
         className="flex align-items--c justify-content--c"
-        style={{
-          height: 'calc(100vh - 8vh)',
-          display: isLoading ? 'flex' : 'none',
-        }}>
+        style={{ height: '92vh' }}>
         <LoaderDonutSpinner size="xxl" variant="primary" />
       </div>
+    );
+  }
+
+  return (
+    <div className="App">
       <ResponsiveNavbar
         showMobileNav={showMobileNav}
         setShowMobileNav={setShowMobileNav}
       />
-      <div
-        className={`body-for-resp-nav ${
-          showMobileNav
-            ? '.blur-content-in-mobile overflow--hidden'
-            : 'overflow--auto overflow--X--hidden'
-        }`}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/men" element={<Shop />} />
-          <Route path="/women" element={<Shop />} />
-          <Route path="/product/:productId" element={<ProductDetail />} />
-
-          {/* PRIVATE ROUTES */}
-          <PrivateRoute path="user-profile" element={<UserProfile />} />
-          <PrivateRoute path="cart" element={<Cart />} />
-          <PrivateRoute path="wishlist" element={<Wishlist />} />
-
-          {/* ROUTE NOT FOUND */}
-          <Route path="*" element={<> No Route Found</>} />
-        </Routes>
-        {/* <p>FROM APP.js</p> */}
-      </div>
+      <AppRoutes showMobileNav={showMobileNav} />
       <ToastContainer
         position="bottom-right"
         autoClose={2500}

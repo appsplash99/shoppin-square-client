@@ -107,18 +107,6 @@ export const FilterContainer = ({ handleCloseFilterContainer }) => {
               Fast Delivery
             </label>
           </div>
-          {/* TODO: ADD BELOW FILTER OR REMOVE */}
-          {/* <div>
-            <label className="text--sm cursor--pointer">
-              <input
-                type="checkbox"
-                className="mx--sm check-btn"
-                checked={showFastDeliveryOnly}
-                onChange={() => filterDispatch({ type: 'TOGGLE_DELIVERY' })}
-              />
-              Offer
-            </label>
-          </div> */}
         </div>
       </div>
     </div>

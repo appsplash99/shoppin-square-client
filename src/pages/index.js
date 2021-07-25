@@ -6,6 +6,7 @@ import { ProductDetail } from './ProductDetail/ProductDetail';
 import { Login } from './Login/Login';
 import { Signup } from './SignUp/Signup';
 import { UserProfile } from './UserProfile/UserProfile';
+import { CheckoutForm } from './CheckoutForm/CheckoutForm';
 
 export {
   Cart,
@@ -15,5 +16,6 @@ export {
   Signup,
   Wishlist,
   UserProfile,
+  CheckoutForm,
   ProductDetail,
 };

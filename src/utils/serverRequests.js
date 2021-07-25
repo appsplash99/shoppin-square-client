@@ -154,9 +154,9 @@ export const wishlistManipulation = async (
 };
 
 export const getUserWishlistItems = async ({ dispatch }) => {
+  const { token, userId } = getLocalCredentials();
   try {
     dispatch({ type: 'SHOW_LOADER' });
-    const { token, userId } = getLocalCredentials();
     const {
       data: { success, userWishlist },
     } = await axios({
@@ -173,7 +173,7 @@ export const getUserWishlistItems = async ({ dispatch }) => {
     dispatch({ type: 'HIDE_LOADER' });
   } catch (error) {
     dispatch({ type: 'HIDE_LOADER' });
-    toast.error('Unable to fetch User Wishlist');
+    token && toast.error('Unable to fetch User Wishlist');
   }
 };
 
@@ -202,9 +202,9 @@ export const updateCartItemQtyInDb = async (
 };
 
 export const getUserCartItems = async ({ dispatch }) => {
+  const { token, userId } = getLocalCredentials();
   try {
     dispatch({ type: 'SHOW_LOADER' });
-    const { token, userId } = getLocalCredentials();
     const newResp = await axios({
       method: 'GET',
       url: CART_ROUTE + `/${userId}`,
@@ -220,7 +220,7 @@ export const getUserCartItems = async ({ dispatch }) => {
     dispatch({ type: 'HIDE_LOADER' });
   } catch (error) {
     dispatch({ type: 'HIDE_LOADER' });
-    toast.error('Unable to get user Cart');
+    token && toast.error('Unable to get user Cart');
   }
 };
 

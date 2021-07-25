@@ -10,7 +10,7 @@ import {
   getUserCartItems,
 } from '../../utils/serverRequests';
 import { useNavigate } from 'react-router-dom';
-import { Btn, LoaderDonutSpinner } from 'morphine-ui';
+import { Btn, LoaderDonutSpinner, BtnInverted } from 'morphine-ui';
 import { useCartState } from '../../context/cart-context';
 import { getLocalCredentials } from '../../utils/localStorage';
 import { ChangeProductQtyBtn, EmptyCartOrWishlist } from '../../components/';
@@ -52,9 +52,10 @@ export const Cart = () => {
                 Subtotal ({totalProductsInArray(cartItems)} items): ₹{' '}
                 {totalProductPrice(cartItems).toFixed(2)}
               </div>
-              {/* <BtnInverted variant="primary" shape="capsule" sm="md">
-                  <div className="font-weight--500">Proceed to Checkout</div>
-                </BtnInverted> */}
+              {/* TODO: IMPLEMENT CHECKOUT */}
+              <BtnInverted variant="primary" shape="capsule" sm="md">
+                <div className="font-weight--500">Proceed to Checkout</div>
+              </BtnInverted>
             </div>
           </div>
           <div className="flex flex--column gap border-radius--xs">

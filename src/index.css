@@ -31,10 +31,19 @@ code {
   list-style-type: none;
 }
 
+/* for stripe form */
 input {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   outline: none;
+  border-style: none;
+}
+
+/* for formik forms */
+.form-group > input {
+  outline-style: solid;
+  outline-color: var(--themePrimary);
+  outline-width: 2px;
   border-style: none;
 }

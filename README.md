@@ -1,5 +1,11 @@
 # **Shoppin Square - An Ecommerce App**
 
+## Login Details
+
+email: projectReview100@email.com
+
+pass: projectReview100@email.com
+
 ## Application Links
 
 - [Live Demo :rocket:](https://shoppin-square.netlify.app)
@@ -44,3 +50,6 @@
 - Responsive Design
 
 - Loader, Toast Notifications - React toastify
+
+
+

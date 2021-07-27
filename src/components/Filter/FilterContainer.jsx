@@ -1,4 +1,4 @@
-import { BtnIcon } from 'morphine-ui';
+import { BtnIcon, Btn } from 'morphine-ui';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { useCartState } from '../../context/cart-context';
 import { handleFilterOnChange } from '../../utils/utils';
@@ -13,20 +13,33 @@ export const FilterContainer = ({ handleCloseFilterContainer }) => {
       style={{
         position: 'absolute',
         zIndex: 'var(--zIndex--overlay)',
-        minWidth: '15rem',
+        minWidth: '12rem',
         backgroundColor: 'var(--themeSecondary)',
         marginTop: 'var(--space-xxs)',
         borderRadius: 'var(--space-sm)',
-        left: '-65%',
+        left: '-45%',
       }}>
-      <div className="flex p">
+      <div className="flex flex--column p">
         <BtnIcon
           size="lg"
           onClick={handleCloseFilterContainer}
-          style={{ position: 'absolute', top: 0, right: 0 }}>
+          style={{
+            position: 'absolute',
+            top: 'var(--space-xxxs)',
+            right: 'var(--space-xxxs)',
+          }}>
           <IoIosCloseCircle className="text--xl cursor--pointer" />
         </BtnIcon>
         <div className="flex flex--column gap--sm align-items--fs justify-content--fs">
+          {Object.keys(filterObj).length > 0 && (
+            <Btn
+              size="xxxs"
+              variant="error"
+              shape="capsule"
+              onClick={() => dispatch({ type: 'CLEAR_ALL_FILTERS' })}>
+              Clear all Filters
+            </Btn>
+          )}
           <div>
             <label className="text--sm cursor--pointer">
               <input
@@ -40,7 +53,7 @@ export const FilterContainer = ({ handleCloseFilterContainer }) => {
                     dispatch,
                     dispatchType: 'FILTER_IS_NEW_PRODUCT',
                     payloadForTrue: true,
-                    payloadforFalse: '',
+                    payloadforFalse: false,
                   })
                 }
               />
@@ -60,11 +73,11 @@ export const FilterContainer = ({ handleCloseFilterContainer }) => {
                     dispatch,
                     dispatchType: 'FILTER_IN_STOCK',
                     payloadForTrue: true,
-                    payloadforFalse: '',
+                    payloadforFalse: false,
                   })
                 }
               />
-              Exclude Out of Stock
+              In Stock
             </label>
           </div>
           <div>
@@ -80,7 +93,7 @@ export const FilterContainer = ({ handleCloseFilterContainer }) => {
                     dispatch,
                     dispatchType: 'FILTER_SALE_ITEM',
                     payloadForTrue: true,
-                    payloadforFalse: '',
+                    payloadforFalse: false,
                   })
                 }
               />
@@ -92,15 +105,15 @@ export const FilterContainer = ({ handleCloseFilterContainer }) => {
               <input
                 type="checkbox"
                 className="mx--sm check-btn"
-                checked={filterObj['fastDelivery'] === true}
+                checked={filterObj['fast_delivery'] === true}
                 onChange={() =>
                   handleFilterOnChange({
                     filterObj,
-                    filterType: 'fastDelivery',
+                    filterType: 'fast_delivery',
                     dispatch,
                     dispatchType: 'FILTER_FAST_DELIVERY',
                     payloadForTrue: true,
-                    payloadforFalse: '',
+                    payloadforFalse: false,
                   })
                 }
               />

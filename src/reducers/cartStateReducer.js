@@ -18,8 +18,8 @@ import { makeProductsApiUrl, ALL_PRODUCTS } from '../utils/apiRoutes';
 
 export const cartStateReducer = (prevState, action) => {
   switch (action.type) {
-    
-
+    case filterActions.CLEAR_ALL_FILTERS:
+      return { ...prevState, filterObj: {} };
 
     case filterActions.FILTER_CATEGORY: {
       let newFilterObj = {};

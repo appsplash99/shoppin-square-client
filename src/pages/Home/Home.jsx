@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCartState } from '../../context/cart-context';
 import { menImage, womenImage, handleFilterOnChange } from '../../utils/utils';
 import { AiFillDollarCircle, AiFillStar } from 'react-icons/ai';
@@ -13,15 +13,15 @@ export const Home = () => {
   } = useCartState();
   const navigate = useNavigate();
 
-  const linkStyles = {
-    position: 'absolute',
+  const titleStyles = {
+    borderRadius: 'var(--space-lg)',
     bottom: 'var(--space-md)',
+    backgroundColor: 'black',
+    position: 'absolute',
+    margin: '0 auto',
+    width: '70%',
     right: '0',
     left: '0',
-    backgroundColor: 'black',
-    width: '70%',
-    margin: '0 auto',
-    borderRadius: 'var(--space-lg)',
   };
 
   return (
@@ -34,32 +34,34 @@ export const Home = () => {
       <div className="flex flex-wrap--wrap align-items--c justify-content--c gap--lg">
         <div>
           <div
+            className="cursor--pointer"
             style={{ position: 'relative' }}
-            className="flex flex--column align-items--c justify-content--c">
+            onClick={() => {
+              dispatch({ type: 'FILTER_CATEGORY', payload: 'men' });
+              navigate('/men');
+            }}>
             <img className="border-radius--sm" src={menImage} alt="men" />
-            <Link
-              to="/men"
-              style={linkStyles}
-              className="text-decoration--none text--xxl font-weight--700 text--light"
-              onClick={() => {
-                dispatch({ type: 'FILTER_CATEGORY', payload: 'men' });
-              }}>
+            <h1
+              style={titleStyles}
+              className="text--xxl font-weight--700 text--light p--xs--sm">
               Men
-            </Link>{' '}
+            </h1>
           </div>
         </div>
         <div>
-          <div style={{ position: 'relative' }}>
+          <div
+            className="cursor--pointer"
+            style={{ position: 'relative' }}
+            onClick={() => {
+              dispatch({ type: 'FILTER_CATEGORY', payload: 'women' });
+              navigate('/women');
+            }}>
             <img className="border-radius--sm" src={womenImage} alt="men" />
-            <Link
-              to="/women"
-              style={linkStyles}
-              className="text-decoration--none text--xxl font-weight--700 text--light"
-              onClick={() => {
-                dispatch({ type: 'FILTER_CATEGORY', payload: 'women' });
-              }}>
+            <h1
+              style={titleStyles}
+              className="text--xxl font-weight--700 text--light p--xs--sm">
               Women
-            </Link>{' '}
+            </h1>
           </div>
         </div>
       </div>
@@ -78,12 +80,12 @@ export const Home = () => {
                 dispatch,
                 dispatchType: 'FILTER_SALE_ITEM',
                 payloadForTrue: true,
-                payloadforFalse: '',
+                payloadforFalse: false,
               });
               navigate('/shop');
             }}
             className="border-radius--sm flex flex--column align-items--c justify-content--c gap--sm">
-            <FaShippingFast className="text--xxxl" />
+            <AiFillDollarCircle className="text--xxxl" />
             Sale Items
           </Btn>
           <Btn
@@ -96,12 +98,12 @@ export const Home = () => {
                 dispatch,
                 dispatchType: 'FILTER_IS_NEW_PRODUCT',
                 payloadForTrue: true,
-                payloadforFalse: '',
+                payloadforFalse: false,
               });
               navigate('/shop');
             }}
             className="border-radius--sm flex flex--column align-items--c justify-content--c gap--sm">
-            <AiFillDollarCircle className="text--xxxl" />
+            <AiFillStar className="text--xxxl" />
             New Products
           </Btn>
           <Btn
@@ -114,12 +116,12 @@ export const Home = () => {
                 dispatch,
                 dispatchType: 'FILTER_FAST_DELIVERY',
                 payloadForTrue: true,
-                payloadforFalse: '',
+                payloadforFalse: false,
               });
               navigate('/shop');
             }}
             className="border-radius--sm flex flex--column align-items--c justify-content--c gap--sm">
-            <AiFillStar className="text--xxxl" />
+            <FaShippingFast className="text--xxxl" />
             Fast Delivery
           </Btn>
         </div>

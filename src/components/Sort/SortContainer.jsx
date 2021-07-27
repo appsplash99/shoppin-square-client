@@ -24,7 +24,7 @@ export const SortContainer = ({ handleCloseSortContainer }) => {
         borderRadius: 'var(--space-sm)',
         left: '-50%',
       }}>
-      <div className="flex flex--row-reverse p">
+      <div className="flex flex--column p">
         <BtnIcon
           size="lg"
           onClick={handleCloseSortContainer}
@@ -35,7 +35,7 @@ export const SortContainer = ({ handleCloseSortContainer }) => {
           }}>
           <IoIosCloseCircle className="text--xl cursor--pointer" />
         </BtnIcon>
-        <div className="flex flex--column gap--sm align-items--fs justify-content--c">
+        <div className="flex flex--column gap--sm align-items--fs justify-content--fs">
           <div className="flex flex--column gap--sm align-items--fs justify-content--fs">
             {sortBy && (
               <Btn

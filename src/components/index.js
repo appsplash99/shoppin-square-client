@@ -4,10 +4,13 @@ import { ResponsiveNavbar } from './ResponsiveNavbar/ResponsiveNavbar';
 import { Sort } from './Sort/Sort';
 import { Filter } from './Filter/Filter';
 import { EmptyCartOrWishlist } from './EmptyCartOrWishlist/EmptyCartOrWishlist';
+import { NoResultsFound } from './NoResultsFound/NoResultsFound';
+
 export {
   Sort,
   Filter,
   PrivateRoute,
+  NoResultsFound,
   ResponsiveNavbar,
   ChangeProductQtyBtn,
   EmptyCartOrWishlist,

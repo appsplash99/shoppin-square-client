@@ -5,7 +5,6 @@ import { useCartState } from '../../context/cart-context';
 
 export const Navbar = ({ showMobileNav, setShowMobileNav }) => {
   const { dispatch } = useCartState();
-
   return (
     <ul
       className={`resp-nav__navbar nav__list p--md ${
@@ -28,7 +27,7 @@ export const Navbar = ({ showMobileNav, setShowMobileNav }) => {
               to="/shop"
               className="nav__link resp-nav__mobile-link text--secondary"
               onClick={() => {
-                dispatch({ type: 'FILTER_CATEGORY', payload: '' });
+                dispatch({ type: 'FILTER_CATEGORY', payload: 'all-products' });
               }}>
               Shop
             </Link>
@@ -36,7 +35,7 @@ export const Navbar = ({ showMobileNav, setShowMobileNav }) => {
               to="/shop"
               className="nav__link resp-nav__desktop-link text--themeRed"
               onClick={() => {
-                dispatch({ type: 'FILTER_CATEGORY', payload: '' });
+                dispatch({ type: 'FILTER_CATEGORY', payload: 'all-products' });
               }}>
               Shop
             </Link>

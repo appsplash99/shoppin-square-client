@@ -4,16 +4,16 @@ import {
   productAddToCart,
   productAddToWishlist,
 } from '../../utils/serverRequests';
+import { toast } from 'react-toastify';
+import ReactPaginate from 'react-paginate';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCartState } from '../../context/cart-context';
-import { Sort, Filter } from '../../components/';
-import { getLocalCredentials } from '../../utils/localStorage';
 import { isProductInArray } from '../../utils/array-functions';
+import { getLocalCredentials } from '../../utils/localStorage';
 import { loadProductsFromDB } from '../../utils/serverRequests';
+import { Sort, Filter, NoResultsFound } from '../../components/';
 import { Btn, ProductCardVertical, LoaderDonutSpinner } from 'morphine-ui';
-import ReactPaginate from 'react-paginate';
-import { toast } from 'react-toastify';
 
 export const Shop = () => {
   const navigate = useNavigate();
@@ -41,11 +41,12 @@ export const Shop = () => {
     loadProductsFromDB({ url: currentProductsApiRoute, dispatch });
   }, [dispatch, currentProductsApiRoute, filterObj, sortBy]);
 
+  // TODO: MOVE THE LOADER INTO SHOP COMPONENT BELOW PAGINATION LINE
   if (showLoader) {
     return (
       <div
         className="flex align-items--c justify-content--c"
-        style={{ height: '92vh' }}>
+        style={{ height: '90vh' }}>
         <LoaderDonutSpinner size="xxl" variant="primary" />
       </div>
     );
@@ -55,7 +56,10 @@ export const Shop = () => {
     <div>
       <div
         className="shop-container flex flex--column gap--sm pt--xs"
-        style={{ display: !shoppingItems ? 'none' : '', margin: '0 auto' }}>
+        style={{
+          display: !shoppingItems ? 'none' : '',
+          margin: '0 auto',
+        }}>
         <div
           className="paginated-sort-and-filter flex flex-wrap--wrap align-items--c justify-content--c gap--sm w--70%"
           style={{ margin: '0 auto' }}>
@@ -81,6 +85,8 @@ export const Shop = () => {
           activeClassName={'active'}
           disabledClassName={'disable-pagination-button'}
         />
+        {/* TODO: ADD A COMPONENT WHEN FILTER RETURNS EMPTY */}
+        {shoppingItems.length === 0 && <NoResultsFound />}
         <main className="flex flex-wrap--wrap align-items--c justify-content--c gap--sm">
           {shoppingItems &&
             shoppingItems.map((product) => {

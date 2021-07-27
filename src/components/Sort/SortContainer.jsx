@@ -1,4 +1,4 @@
-import { BtnIcon } from 'morphine-ui';
+import { BtnIcon, Btn } from 'morphine-ui';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { useCartState } from '../../context/cart-context';
 
@@ -22,16 +22,31 @@ export const SortContainer = ({ handleCloseSortContainer }) => {
         backgroundColor: 'var(--themeSecondary)',
         marginTop: 'var(--space-xxs)',
         borderRadius: 'var(--space-sm)',
-        left: '-70%',
+        left: '-50%',
       }}>
       <div className="flex flex--row-reverse p">
         <BtnIcon
           size="lg"
           onClick={handleCloseSortContainer}
-          style={{ position: 'absolute', top: 0, right: 0 }}>
+          style={{
+            position: 'absolute',
+            top: 'var(--space-xxxs)',
+            right: 'var(--space-xxxs)',
+          }}>
           <IoIosCloseCircle className="text--xl cursor--pointer" />
         </BtnIcon>
         <div className="flex flex--column gap--sm align-items--fs justify-content--c">
+          <div className="flex flex--column gap--sm align-items--fs justify-content--fs">
+            {sortBy && (
+              <Btn
+                size="xxxs"
+                variant="error"
+                shape="capsule"
+                onClick={() => dispatch({ type: 'SORT', payload: null })}>
+                Clear Sort
+              </Btn>
+            )}
+          </div>
           {/* PRODUCTS SORTER */}
           <div>
             <label className="text--sm cursor--pointer">

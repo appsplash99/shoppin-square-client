@@ -18,16 +18,26 @@ import { makeProductsApiUrl, ALL_PRODUCTS } from '../utils/apiRoutes';
 
 export const cartStateReducer = (prevState, action) => {
   switch (action.type) {
+    
+
+
     case filterActions.FILTER_CATEGORY: {
+      let newFilterObj = {};
+      if (action.payload === 'all-products') {
+        delete prevState.filterObj.category;
+        newFilterObj = prevState.filterObj;
+      } else {
+        newFilterObj = { ...prevState.filterObj, category: action.payload };
+      }
       return {
         ...prevState,
         // change context with new value
-        filterObj: { ...prevState.filterObj, category: action.payload },
+        filterObj: newFilterObj,
         // make new API url with new filter obj
         currentProductsApiRoute: makeProductsApiUrl({
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
-          filterObj: { ...prevState.filterObj, category: action.payload },
+          filterObj: newFilterObj,
         }),
         // set current page to zero
         pagination: { ...prevState.pagination, currentPage: 0 },
@@ -35,58 +45,88 @@ export const cartStateReducer = (prevState, action) => {
     }
 
     case filterActions.FILTER_IS_NEW_PRODUCT: {
+      let newFilterObj = {};
+      if (action.payload === true) {
+        newFilterObj = { ...prevState.filterObj, is_new_product: true };
+      } else {
+        delete prevState.filterObj.is_new_product;
+        newFilterObj = { ...prevState.filterObj };
+      }
+
       return {
         ...prevState,
         // change context with new value
-        filterObj: { ...prevState.filterObj, is_new_product: action.payload },
+        filterObj: newFilterObj,
         // make new API url with new filter obj
         currentProductsApiRoute: makeProductsApiUrl({
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
-          filterObj: { ...prevState.filterObj, is_new_product: action.payload },
+          filterObj: newFilterObj,
         }),
         // pagination: {...prevState.pagination}
       };
     }
 
     case filterActions.FILTER_IN_STOCK: {
+      let newFilterObj = {};
+      if (action.payload === true) {
+        newFilterObj = { ...prevState.filterObj, in_stock: true };
+      } else {
+        delete prevState.filterObj.in_stock;
+        newFilterObj = { ...prevState.filterObj };
+      }
+
       return {
         ...prevState,
         // change context with new value
-        filterObj: { ...prevState.filterObj, in_stock: action.payload },
+        filterObj: newFilterObj,
         // make new API url with new filter obj
         currentProductsApiRoute: makeProductsApiUrl({
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
-          filterObj: { ...prevState.filterObj, in_stock: action.payload },
+          filterObj: newFilterObj,
         }),
       };
     }
 
     case filterActions.FILTER_SALE_ITEM: {
+      let newFilterObj = {};
+      if (action.payload === true) {
+        newFilterObj = { ...prevState.filterObj, sale: true };
+      } else {
+        delete prevState.filterObj.sale;
+        newFilterObj = { ...prevState.filterObj };
+      }
       return {
         ...prevState,
         // change context with new value
-        filterObj: { ...prevState.filterObj, sale: action.payload },
+        filterObj: newFilterObj,
         // make new API url with new filter obj
         currentProductsApiRoute: makeProductsApiUrl({
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
-          filterObj: { ...prevState.filterObj, sale: action.payload },
+          filterObj: newFilterObj,
         }),
       };
     }
 
     case filterActions.FILTER_FAST_DELIVERY: {
+      let newFilterObj = {};
+      if (action.payload === true) {
+        newFilterObj = { ...prevState.filterObj, fast_delivery: true };
+      } else {
+        delete prevState.filterObj.fast_delivery;
+        newFilterObj = { ...prevState.filterObj };
+      }
       return {
         ...prevState,
         // change context with new value
-        filterObj: { ...prevState.filterObj, fastDelivery: action.payload },
+        filterObj: newFilterObj,
         // make new API url with new filter obj
         currentProductsApiRoute: makeProductsApiUrl({
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
-          filterObj: { ...prevState.filterObj, fastDelivery: action.payload },
+          filterObj: newFilterObj,
         }),
       };
     }

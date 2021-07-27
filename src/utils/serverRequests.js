@@ -37,7 +37,6 @@ export const productAddToCart = async (
   productId
 ) => {
   e.preventDefault();
-  toast.info('Adding to cart...');
   try {
     const { data } = await axios({
       method: 'POST',
@@ -62,7 +61,6 @@ export const productRemoveFromCart = async (
   userId,
   productId
 ) => {
-  toast.info('Removing from cart...');
   try {
     const {
       data: { success, latestCart },
@@ -89,7 +87,6 @@ export const productRemoveFromWishlist = async (
   userId,
   productId
 ) => {
-  toast.info('removing from wishlist...');
   try {
     const { data } = await axios({
       method: 'DELETE',
@@ -114,7 +111,6 @@ export const productAddToWishlist = async (
   userId,
   productId
 ) => {
-  toast.info('adding to wishlist...');
   try {
     const {
       data: { success, latestWishlist },
@@ -232,7 +228,6 @@ export const logOutUser = async (dispatch) => {
 
 export const loginUser = async ({ dispatch, respBody, navigate }) => {
   try {
-    toast.info('Logging In...');
     dispatch({ type: 'SHOW_LOADER' });
     const response = await axios({
       method: 'post',
@@ -260,7 +255,6 @@ export const loginUser = async ({ dispatch, respBody, navigate }) => {
 export const signUpUser = async ({ dispatch, navigate, userData }) => {
   try {
     dispatch({ type: 'SHOW_LOADER' });
-    toast.info('Signing You Up...');
     const { name, email, password } = userData;
     const { data } = await axios({
       method: 'post',

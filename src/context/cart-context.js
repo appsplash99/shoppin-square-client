@@ -16,15 +16,10 @@ const CartProvider = ({ children }) => {
       totalPages: 0,
       // currentPage: null,
       currentPage: 0,
-      productsPerPage: null,
+      productsPerPage: 7,
     },
     errorMessage: '',
     cartTotal: 0,
-    // TODO: remove after checked/tested
-    checkingState: {
-      fromLoadProducts: 0,
-      fromSetProductsPerPage: 0,
-    },
   };
   const [state, dispatch] = useReducer(cartStateReducer, initialState);
   return (

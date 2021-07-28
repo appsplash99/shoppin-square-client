@@ -224,6 +224,7 @@ export const getUserCartItems = async ({ dispatch }) => {
 export const logOutUser = async (dispatch) => {
   removeLocalCredentials();
   dispatch({ type: 'LOG_OUT_USER' });
+  toast.success('Visit Us Again!');
 };
 
 export const loginUser = async ({ dispatch, respBody, navigate }) => {

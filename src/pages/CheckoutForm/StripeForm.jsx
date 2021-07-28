@@ -9,6 +9,7 @@ import { CardField } from './CartField';
 import { FaRegSmileWink } from 'react-icons/fa';
 import { Btn } from 'morphine-ui';
 import { useNavigate } from 'react-router-dom';
+import { emptyUserCart } from '../../utils/serverRequests';
 
 export const StripeForm = () => {
   const stripe = useStripe();
@@ -18,12 +19,13 @@ export const StripeForm = () => {
   const [processing, setProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [billingDetails, setBillingDetails] = useState({
-    email: '',
-    phone: '',
-    name: '',
+    email: 'testUser100@email.com',
+    phone: '1234567890',
+    name: 'testUser100',
   });
   const {
     state: { cartTotal },
+    dispatch,
   } = useCartState();
   const navigate = useNavigate();
 
@@ -43,6 +45,7 @@ export const StripeForm = () => {
 
     if (cardComplete) {
       setProcessing(true);
+      emptyUserCart({ dispatch });
     }
 
     const payload = await stripe.createPaymentMethod({

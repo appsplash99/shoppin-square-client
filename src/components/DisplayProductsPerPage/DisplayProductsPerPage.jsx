@@ -11,8 +11,6 @@ export const DisplayProductsPerPage = () => {
   } = useCartState();
 
   const handleOnChange = (e) => {
-    // TODO: Do the dispatch
-    console.log(e.target.value);
     dispatch({ type: 'SET_PRODUCTS_PER_PAGE', payload: e.target.value });
   };
 

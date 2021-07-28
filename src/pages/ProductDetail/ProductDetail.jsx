@@ -3,12 +3,14 @@ import axios from 'axios';
 import { FaStar, FaShippingFast } from 'react-icons/fa';
 import { BiRupee } from 'react-icons/bi';
 import { MdEventAvailable } from 'react-icons/md';
+import { SiHellofresh } from 'react-icons/si';
 import { useParams } from 'react-router-dom';
 import ReactImageMagnify from 'react-image-magnify';
 import { ALL_PRODUCTS } from '../../utils/apiRoutes';
 import { LoaderDonutSpinner, Btn } from 'morphine-ui';
 import { AddToCartBtn } from './AddToCartBtn';
 import { AddToWishlistBtn } from './AddToWIshlistBtn';
+import { AiFillDollarCircle } from 'react-icons/ai';
 
 export const ProductDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +94,8 @@ export const ProductDetail = () => {
           <p className="text-align--l">{desiredProduct?.description}</p>
           {desiredProduct?.sale && (
             <div className="flex align-items--c justify-self--fs gap--sm">
-              <p className="p--xxs bg--themeRed text--light">Sale Item</p>
+              <AiFillDollarCircle className="text--primary text--xl" />
+              <p>Sale Item</p>
             </div>
           )}
           {desiredProduct?.fastDelivery && (
@@ -109,7 +112,7 @@ export const ProductDetail = () => {
           )}
           {desiredProduct?.inStock && (
             <div className="flex align-items--c justify-self--fs gap--sm">
-              <MdEventAvailable className="text--primary text--xl" />
+              <SiHellofresh className="text--primary text--xl" />
               <p>Item in Stock</p>
             </div>
           )}

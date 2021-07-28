@@ -17,19 +17,21 @@ export default function App() {
   const { token, userId } = getLocalCredentials();
 
   useEffect(() => {
-    token && userId && setIsLoading(true);
-    (async function () {
-      const response = await axios.get(`${BASE_URL}/cart/${userId}`, {
-        headers: { authorization: token },
-      });
-      if (response.status === 200) {
-        dispatch({
-          type: 'LOAD_CART_ITEMS',
-          payload: response.data.cart?.cartItems,
+    setIsLoading(true);
+    token &&
+      userId &&
+      (async () => {
+        const response = await axios.get(`${BASE_URL}/cart/${userId}`, {
+          headers: { authorization: token },
         });
-      }
-    })() &&
-      (async function () {
+        if (response.status === 200) {
+          dispatch({
+            type: 'LOAD_CART_ITEMS',
+            payload: response.data.cart?.cartItems,
+          });
+        }
+      })() &&
+      (async () => {
         const response = await axios.get(`${BASE_URL}/wishlist/${userId}`, {
           headers: { authorization: token },
         });

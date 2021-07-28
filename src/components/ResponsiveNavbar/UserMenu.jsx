@@ -47,35 +47,39 @@ const UserMenu = () => {
   }
 
   return (
-    <div className="resp-nav__user-menu flex align-items--c justify-content--c text--dark text--md gap--xs">
-      <Link className="nav__link text--primary" to="wishlist">
-        <DataBadgeIcon
-          variant="circular"
-          data={state && state.wishlistItems ? state.wishlistItems.length : 0}
-          icon={<FcLike className="text--xl" />}
-          iconStyleProp={{ backgroundColor: 'inherit' }}
-          badgeDataStyleProp={{
-            top: 0,
-            backgroundColor: 'var(--themeRed)',
-            margin: 0,
-            color: 'var(--light)',
-          }}></DataBadgeIcon>
-      </Link>
-      <Link className="nav__link text--primary" to="cart">
-        <DataBadgeIcon
-          variant="circular"
-          data={
-            state && state.cartItems ? totalProductsInArray(state.cartItems) : 0
-          }
-          icon={<GiShoppingBag className="text--xl text--success" />}
-          iconStyleProp={{ backgroundColor: 'inherit' }}
-          badgeDataStyleProp={{
-            top: 0,
-            backgroundColor: 'var(--themeRed)',
-            margin: 0,
-            color: 'var(--light)',
-          }}></DataBadgeIcon>
-      </Link>
+    <div className="resp-nav__user-menu flex align-items--c justify-content--c text--dark text--md gap">
+      <div className="flex align-items--c gap--xxxs">
+        <Link className="nav__link text--primary" to="wishlist">
+          <DataBadgeIcon
+            variant="circular"
+            data={state && state.wishlistItems ? state.wishlistItems.length : 0}
+            icon={<FcLike className="text--xl" />}
+            iconStyleProp={{ backgroundColor: 'inherit' }}
+            badgeDataStyleProp={{
+              top: 0,
+              backgroundColor: 'var(--themeRed)',
+              margin: 0,
+              color: 'var(--light)',
+            }}></DataBadgeIcon>
+        </Link>
+        <Link className="nav__link text--primary" to="cart">
+          <DataBadgeIcon
+            variant="circular"
+            data={
+              state && state.cartItems
+                ? totalProductsInArray(state.cartItems)
+                : 0
+            }
+            icon={<GiShoppingBag className="text--xl text--success" />}
+            iconStyleProp={{ backgroundColor: 'inherit' }}
+            badgeDataStyleProp={{
+              top: 0,
+              backgroundColor: 'var(--themeRed)',
+              margin: 0,
+              color: 'var(--light)',
+            }}></DataBadgeIcon>
+        </Link>
+      </div>
       <Btn
         size="xxs"
         variant="primary"

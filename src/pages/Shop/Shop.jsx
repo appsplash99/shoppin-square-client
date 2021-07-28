@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
 import './Shop.css';
 import {
+  Sort,
+  Filter,
+  NoResultsFound,
+  DisplayProductsPerPage,
+} from '../../components';
+import {
   productAddToCart,
   productAddToWishlist,
 } from '../../utils/serverRequests';
@@ -12,7 +18,6 @@ import { useCartState } from '../../context/cart-context';
 import { isProductInArray } from '../../utils/array-functions';
 import { getLocalCredentials } from '../../utils/localStorage';
 import { loadProductsFromDB } from '../../utils/serverRequests';
-import { Sort, Filter, NoResultsFound } from '../../components/';
 import { Btn, ProductCardVertical, LoaderDonutSpinner } from 'morphine-ui';
 
 export const Shop = () => {
@@ -41,7 +46,6 @@ export const Shop = () => {
     loadProductsFromDB({ url: currentProductsApiRoute, dispatch });
   }, [dispatch, currentProductsApiRoute, filterObj, sortBy]);
 
-  // TODO: MOVE THE LOADER INTO SHOP COMPONENT BELOW PAGINATION LINE
   if (showLoader) {
     return (
       <div
@@ -64,17 +68,15 @@ export const Shop = () => {
           className="paginated-sort-and-filter flex flex-wrap--wrap align-items--c justify-content--c gap--sm w--70%"
           style={{ margin: '0 auto' }}>
           <Filter />
-          {/* TODO: add this like ajio */}
-          {/* <div>Product Grid Changer</div> */}
           <Sort />
+          <DisplayProductsPerPage />
         </div>
         <ReactPaginate
           previousLabel={'prev'}
           nextLabel={'next'}
           breakLabel={'...'}
           breakClassName={'break-me'}
-          pageCount={totalPages}
-          // pageCount={totalPages + 1}
+          pageCount={totalPages + 1}
           marginPagesDisplayed={0}
           pageRangeDisplayed={5}
           onPageChange={handlePageClick}
@@ -85,7 +87,6 @@ export const Shop = () => {
           activeClassName={'active'}
           disabledClassName={'disable-pagination-button'}
         />
-        {/* TODO: ADD A COMPONENT WHEN FILTER RETURNS EMPTY */}
         {shoppingItems.length === 0 && <NoResultsFound />}
         <main className="flex flex-wrap--wrap align-items--c justify-content--c gap--sm">
           {shoppingItems &&

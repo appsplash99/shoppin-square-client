@@ -272,3 +272,27 @@ export const signUpUser = async ({ dispatch, navigate, userData }) => {
     dispatch({ type: 'SET_ERROR_MESSAGE', payload: error.message });
   }
 };
+
+export const emptyUserCart = async ({ dispatch }) => {
+  const { token, userId } = getLocalCredentials();
+  try {
+    const { data } = await axios({
+      method: 'POST',
+      url: CART_ROUTE + `/empty-cart/${userId}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    });
+    if (data.success) {
+      dispatch({
+        type: 'LOAD_CART_ITEMS',
+        payload: data?.latestCart?.cartItems,
+      });
+      toast.success('Payment Successful!');
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error('Unable to clear user Cart');
+  }
+};

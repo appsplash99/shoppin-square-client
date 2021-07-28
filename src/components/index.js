@@ -5,6 +5,7 @@ import { Sort } from './Sort/Sort';
 import { Filter } from './Filter/Filter';
 import { EmptyCartOrWishlist } from './EmptyCartOrWishlist/EmptyCartOrWishlist';
 import { NoResultsFound } from './NoResultsFound/NoResultsFound';
+import { DisplayProductsPerPage } from './DisplayProductsPerPage/DisplayProductsPerPage';
 
 export {
   Sort,
@@ -14,4 +15,5 @@ export {
   ResponsiveNavbar,
   ChangeProductQtyBtn,
   EmptyCartOrWishlist,
+  DisplayProductsPerPage,
 };

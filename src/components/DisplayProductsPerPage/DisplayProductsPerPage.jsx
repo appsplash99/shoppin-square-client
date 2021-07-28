@@ -2,7 +2,7 @@ import React from 'react';
 import { Btn } from 'morphine-ui';
 import { useCartState } from '../../context/cart-context';
 
-export const DisplayProducts = () => {
+export const DisplayProductsPerPage = () => {
   const {
     state: {
       pagination: { productsPerPage },

@@ -83,7 +83,7 @@ export const Cart = () => {
                     style={{
                       marginLeft: 'auto',
                       marginRight: 'auto',
-                      maxWidth: '26rem',
+                      maxWidth: '22rem',
                       boxShadow:
                         'rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px',
                     }}>
@@ -95,42 +95,36 @@ export const Cart = () => {
                         style={{ height: '50%', width: '10rem' }}
                         onClick={() => navigate(`/product/${product._id}`)}
                       />
-                      <div className="product__content flex flex--column gap--xxs p--xxs justify-content--c align-items--fs">
-                        <div className="flex justify-content--sb">
-                          <div className="text--md">
-                            <div className="font-weight--600 flex">
-                              {product.brandName}
-                            </div>
-                            <p className="text-align--l text--sm">
-                              {product.description}
-                            </p>
-                          </div>
+                      <div className="product__content flex flex--column gap--xxxs p--xxs justify-content--c align-items--fs">
+                        <div className="flex flex--column align-items--fs justify-content--sb">
+                          <div className="text--md">{product.brandName}</div>
+                          <p className="text--xxs text-align--l">
+                            {product.description.slice(0, 30)}
+                          </p>
                         </div>
                         <div className="flex flex-wrap--wrap align-items--c gap--xxs">
-                          <span className="font-weight--600">
-                            ₹ {product.price}
-                          </span>
-                          <span className="text--strikethrough text--sm">
+                          <p className="text--xs">₹ {product.price}</p>
+                          <p className="text--strikethrough text--xxs">
                             {`₹ ${Math.round(
                               (product.price * 100) / (100 - product.price)
                             )}`}
-                          </span>
-                          <span className="text--sm text--themeRed font-weight--600 border-radius--xs">
+                          </p>
+                          <p className="text--xxs text--themeRed  border-radius--xs">
                             ({product.discount} % OFF)
-                          </span>
+                          </p>
                         </div>
                         <div className="flex align-items--c justify-self--fs gap--sm">
                           {product?.sale && (
-                            <AiFillDollarCircle className="text--primary text--xl" />
+                            <AiFillDollarCircle className="text--primary text--md" />
                           )}
                           {product?.fastDelivery && (
-                            <FaShippingFast className="text--primary text--xl" />
+                            <FaShippingFast className="text--primary text--md" />
                           )}
                           {product?.isNewProduct && (
-                            <MdEventAvailable className="text--primary text--xl" />
+                            <MdEventAvailable className="text--primary text--md" />
                           )}
                           {product?.inStock && (
-                            <SiHellofresh className="text--primary text--xl" />
+                            <SiHellofresh className="text--primary text--md" />
                           )}
                         </div>
                         <ChangeProductQtyBtn
@@ -169,12 +163,9 @@ export const Cart = () => {
                         <Btn
                           variant="error"
                           size="xxs"
-                          style={
-                            {
-                              // justifySelf: 'flex-end',
-                              // alignSelf: 'flex-end',
-                            }
-                          }
+                          style={{
+                            fontSize: '0.6rem',
+                          }}
                           onClick={() => {
                             const { token, userId } = getLocalCredentials();
                             productRemoveFromCart(

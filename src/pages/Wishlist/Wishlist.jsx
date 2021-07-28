@@ -4,9 +4,10 @@ import {
   getUserWishlistItems,
   productRemoveFromWishlist,
 } from '../../utils/serverRequests';
+import { FaTrashAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { Btn, LoaderDonutSpinner } from 'morphine-ui';
 import { EmptyCartOrWishlist } from '../../components';
+import { BtnIcon, LoaderDonutSpinner } from 'morphine-ui';
 import { useCartState } from '../../context/cart-context';
 import { getLocalCredentials } from '../../utils/localStorage';
 
@@ -38,58 +39,65 @@ export const Wishlist = () => {
   }
 
   return (
-    <div className="wishlist-container">
-      <div className="checkout-section flex flex--column flex-wrap--wrap gap">
-        <div className="flex flex--column gap border-radius--xs">
-          {wishlistItems.length > 0 &&
-            wishlistItems.map(({ _id, quantity: qty, product }) => {
-              return (
+    <div className="flex flex--column align-items--c justify-content--c flex-wrap--wrap gap--sm mt--sm">
+      <div className="flex flex-wrap--wrap gap border-radius--xs">
+        {wishlistItems.length > 0 &&
+          wishlistItems.map(({ _id, quantity: qty, product }) => {
+            return (
+              <div
+                key={_id}
+                className="bg--secondary border-radius--sm"
+                style={{
+                  position: 'relative',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  maxWidth: '28rem',
+                }}>
                 <div
-                  key={_id}
-                  className="bg--secondary"
-                  style={{
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    maxWidth: '28rem',
-                  }}>
-                  <div className="product-cardPosition flex gap">
-                    <img
-                      className="product__image wishlist-product-image cursor-pointer"
-                      src={product && product.images[0]}
-                      alt=""
-                      style={{ height: '50%', width: '10rem' }}
-                      onClick={() => navigate(`/product/${product._id}`)}
-                    />
-                    <div className="product__content flex flex--column gap--xxs p--xxs justify-content--c">
-                      <div className="flex justify-content--sb">
-                        <div className="text--md">
-                          <div className="font-weight--600 flex">
-                            {product.brandName}
-                          </div>
-                        </div>
+                  className="product-cardPosition flex gap p--sm"
+                  style={{ maxWidth: '20rem' }}>
+                  <img
+                    className="product__image wishlist-product-image cursor--pointer border-radius--sm"
+                    src={product && product.images[0]}
+                    alt=""
+                    style={{ height: '50%', width: '10rem' }}
+                    onClick={() => navigate(`/product/${product._id}`)}
+                  />
+                  <div className="product__content flex flex--column gap--xxs p--xxs justify-content--c">
+                    <div className="flex flex--column align-items--fs justify-content--sb">
+                      <div className="text--md font-weight--600">
+                        {product.brandName}
                       </div>
-                      <div className="flex align-items--c flex-wrap--wrap">
-                        <Btn
-                          variant="error"
-                          size="xxs"
-                          onClick={async () => {
-                            const { token, userId } = getLocalCredentials();
-                            productRemoveFromWishlist(
-                              dispatch,
-                              token,
-                              userId,
-                              product._id
-                            );
-                          }}>
-                          Remove from Wishlist
-                        </Btn>
-                      </div>
+                      <p className="text--xs font-weight--400 text-align--l">
+                        {product.description}
+                      </p>
+                    </div>
+                    <div className="flex align-items--c flex-wrap--wrap">
+                      <BtnIcon
+                        variant="error"
+                        size="xl"
+                        style={{
+                          position: 'absolute',
+                          bottom: 'var(--space-sm)',
+                          right: 'var(--space-sm)',
+                        }}
+                        onClick={async () => {
+                          const { token, userId } = getLocalCredentials();
+                          productRemoveFromWishlist(
+                            dispatch,
+                            token,
+                            userId,
+                            product._id
+                          );
+                        }}>
+                        <FaTrashAlt className="text--lg text--danger" />
+                      </BtnIcon>
                     </div>
                   </div>
                 </div>
-              );
-            })}
-        </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

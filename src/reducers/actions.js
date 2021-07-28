@@ -31,6 +31,7 @@ export const loaderActions = {
 export const paginationActions = {
   SET_TOTAL_PAGES: 'SET_TOTAL_PAGES',
   SET_CURRENT_PAGE: 'SET_CURRENT_PAGE',
+  SET_PRODUCTS_PER_PAGE: 'SET_PRODUCTS_PER_PAGE',
 };
 
 export const errorActions = { SET_ERROR_MESSAGE: 'SET_ERROR_MESSAGE' };

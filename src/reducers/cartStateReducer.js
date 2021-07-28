@@ -27,6 +27,8 @@ export const cartStateReducer = (prevState, action) => {
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
           filterObj: {},
+          productsPerPage: prevState.pagination.productsPerPage,
+          currentPage: prevState.pagination.currentPage,
         }),
       };
 
@@ -48,6 +50,8 @@ export const cartStateReducer = (prevState, action) => {
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
           filterObj: newFilterObj,
+          productsPerPage: prevState.pagination.productsPerPage,
+          currentPage: prevState.pagination.currentPage,
         }),
         // set current page to zero
         pagination: { ...prevState.pagination, currentPage: 0 },
@@ -74,6 +78,8 @@ export const cartStateReducer = (prevState, action) => {
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
           filterObj: newFilterObj,
+          productsPerPage: prevState.pagination.productsPerPage,
+          currentPage: prevState.pagination.currentPage,
         }),
       };
     }
@@ -98,6 +104,8 @@ export const cartStateReducer = (prevState, action) => {
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
           filterObj: newFilterObj,
+          productsPerPage: prevState.pagination.productsPerPage,
+          currentPage: prevState.pagination.currentPage,
         }),
       };
     }
@@ -121,6 +129,8 @@ export const cartStateReducer = (prevState, action) => {
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
           filterObj: newFilterObj,
+          productsPerPage: prevState.pagination.productsPerPage,
+          currentPage: prevState.pagination.currentPage,
         }),
       };
     }
@@ -144,6 +154,8 @@ export const cartStateReducer = (prevState, action) => {
           allProductsApi: ALL_PRODUCTS,
           sortBy: prevState.sortBy,
           filterObj: newFilterObj,
+          productsPerPage: prevState.pagination.productsPerPage,
+          currentPage: prevState.pagination.currentPage,
         }),
       };
     }
@@ -159,6 +171,7 @@ export const cartStateReducer = (prevState, action) => {
           // makeProductApiUrl with new SortBy value
           sortBy: action.payload,
           filterObj: { ...prevState.filterObj },
+          productsPerPage: prevState.pagination.productsPerPage,
         }),
       };
 
@@ -195,12 +208,12 @@ export const cartStateReducer = (prevState, action) => {
 
     case paginationActions.SET_PRODUCTS_PER_PAGE: {
       // console.log('Dispatched from SET_PRODUCTS_PER_PAGE');
-
       return {
         ...prevState,
         pagination: {
           ...prevState.pagination,
           productsPerPage: action.payload,
+          currentPage: 0,
         },
         currentProductsApiRoute: makeProductsApiUrl({
           allProductsApi: ALL_PRODUCTS,
@@ -208,20 +221,11 @@ export const cartStateReducer = (prevState, action) => {
           filterObj: { ...prevState.filterObj },
           productsPerPage: action.payload,
         }),
-
-        // // TODO: remove after done
-        // // CHECKING STATE
-        // checkingState: {
-        //   ...prevState.checkingState,
-        //   fromSetProductsPerPage:
-        //     prevState.checkingState.fromSetProductsPerPage + 1,
-        // },
       };
     }
 
     case loaderActions.SHOW_LOADER:
       // console.log('Dispatched from SHOW_LOADER');
-
       return { ...prevState, showLoader: true };
 
     case loaderActions.HIDE_LOADER:
@@ -252,23 +256,14 @@ export const cartStateReducer = (prevState, action) => {
           productsPerPage: action.payload.limit,
         },
         shoppingItems: action.payload.products,
-
-        // // TODO: remove after done
-        // // CHECKING STATE
-        // checkingState: {
-        //   ...prevState.checkingState,
-        //   fromLoadProducts: prevState.checkingState.fromLoadProducts + 1,
-        // },
       };
 
     case cartActions.LOAD_CART_ITEMS:
       // console.log('Dispatched from LOAD_CART_ITEMS');
-
       return { ...prevState, cartItems: action.payload };
 
     case cartActions.SET_CART_TOTAL:
       // console.log('Dispatched from SET_CART_TOTAL');
-
       return { ...prevState, cartTotal: action.payload };
 
     case wishlistActions.LOAD_WISHLIST_ITEMS:

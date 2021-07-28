@@ -19,7 +19,8 @@ export const makeProductsApiUrl = ({
   allProductsApi,
   sortBy,
   filterObj,
-  currentPage,
+  currentPage = 0,
+  productsPerPage = 7,
 }) => {
   const activeFilters = Object.keys(filterObj).length > 0;
 
@@ -27,13 +28,11 @@ export const makeProductsApiUrl = ({
 
   // case 1 -  when sort and filters are empty
   if (!sortBy && !activeFilters) {
-    // return allProductsApi;
     apiUrl = allProductsApi;
   }
 
   // case 2 - When only sortBy is present
   if (sortBy && !activeFilters) {
-    // return `${allProductsApi}?sort=${sortBy}`;
     apiUrl = `${allProductsApi}?sort=${sortBy}`;
   }
 
@@ -43,7 +42,7 @@ export const makeProductsApiUrl = ({
     const filterString = filterObjKeysArr
       .map((key) => `filter[${key}]=${filterObj[key]}`)
       .join('&');
-    // return `${allProductsApi}?${filterString}`;
+
     apiUrl = `${allProductsApi}?${filterString}`;
   }
 
@@ -53,17 +52,26 @@ export const makeProductsApiUrl = ({
     const filterString = filterObjKeysArr
       .map((key) => `filter[${key}]=${filterObj[key]}`)
       .join('&');
-    // return `${allProductsApi}?${filterString}&sort=${sortBy}`;
+
     apiUrl = `${allProductsApi}?${filterString}&sort=${sortBy}`;
   }
 
+  // console.log({ currPageFromAPI: currentPage });
   // after all above cases add currentpage to apiUrl
   // if currentPage is present
-  if (currentPage) {
+  if (currentPage && currentPage > 0) {
     if (apiUrl.includes('?')) {
-      return `${apiUrl}&page=${currentPage}`;
+      apiUrl = `${apiUrl}&page=${currentPage}`;
     } else {
-      return `${apiUrl}?page=${currentPage}`;
+      apiUrl = `${apiUrl}?page=${currentPage}`;
+    }
+  }
+
+  if (productsPerPage) {
+    if (apiUrl.includes('?')) {
+      apiUrl = `${apiUrl}&size=${Number(productsPerPage)}`;
+    } else {
+      apiUrl = `${apiUrl}?size=${Number(productsPerPage)}`;
     }
   }
 

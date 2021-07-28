@@ -8,7 +8,7 @@ const CartProvider = ({ children }) => {
   const initialState = {
     currentProductsApiRoute: ALL_PRODUCTS,
     sortBy: null,
-    filterObj: {},
+    filterObj: { in_stock: true },
     shoppingItems: [],
     wishlistItems: [],
     cartItems: [],
@@ -16,19 +16,20 @@ const CartProvider = ({ children }) => {
       totalPages: 0,
       // currentPage: null,
       currentPage: 0,
+      productsPerPage: null,
     },
     errorMessage: '',
     cartTotal: 0,
+    // TODO: remove after checked/tested
+    checkingState: {
+      fromLoadProducts: 0,
+      fromSetProductsPerPage: 0,
+    },
   };
   const [state, dispatch] = useReducer(cartStateReducer, initialState);
   return (
-    <CartContext.Provider
-      value={{
-        state,
-        dispatch,
-      }}>
-      {' '}
-      {children}{' '}
+    <CartContext.Provider value={{ state, dispatch }}>
+      {children}
     </CartContext.Provider>
   );
 };

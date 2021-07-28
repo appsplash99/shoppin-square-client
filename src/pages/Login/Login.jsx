@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { Btn, LoaderDonutSpinner } from 'morphine-ui';
@@ -23,7 +23,10 @@ export const Login = (props) => {
   };
 
   // formik state
-  const initialValues = { email: '', password: '' };
+  const initialValues = {
+    email: 'testUser100@email.com',
+    password: 'testUser100@email.com',
+  };
 
   // formik's handle submit
   const onSubmit = async (values) => {

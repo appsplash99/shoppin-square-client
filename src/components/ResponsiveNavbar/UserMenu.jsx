@@ -76,24 +76,15 @@ const UserMenu = () => {
             color: 'var(--light)',
           }}></DataBadgeIcon>
       </Link>
-      <Link className="nav__link text--primary" to="/">
-        <DataBadgeIcon
-          variant="circular"
-          data={0}
-          icon={
-            <RiLogoutCircleRFill
-              className="text--xl"
-              onClick={() => logOutUser(dispatch)}
-            />
-          }
-          iconStyleProp={{ backgroundColor: 'inherit' }}
-          badgeDataStyleProp={{
-            top: 0,
-            backgroundColor: 'var(--themeRed)',
-            margin: 0,
-            color: 'var(--light)',
-          }}></DataBadgeIcon>
-      </Link>
+      <Btn
+        size="xxs"
+        variant="primary"
+        shape="capsule"
+        onClick={() => logOutUser(dispatch)}
+        className="flex align-items--c gap--xs">
+        <div className="text--sm">Logout</div>
+        <RiLogoutCircleRFill className="text--xl" />
+      </Btn>
     </div>
   );
 };

@@ -221,9 +221,10 @@ export const getUserCartItems = async ({ dispatch }) => {
 };
 
 /** USER ROUTE HANDLERS */
-export const logOutUser = async (dispatch) => {
+export const logOutUser = async ({ dispatch, navigate }) => {
   removeLocalCredentials();
   dispatch({ type: 'LOG_OUT_USER' });
+  navigate('/');
   toast.success('Visit Us Again!');
 };
 

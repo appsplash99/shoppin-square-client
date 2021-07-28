@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GiShoppingBag } from 'react-icons/gi';
 import { FcLike } from 'react-icons/fc';
 import { FaUserPlus } from 'react-icons/fa';
@@ -12,6 +12,7 @@ import { totalProductsInArray } from '../../utils/array-functions';
 const UserMenu = () => {
   const { state, dispatch } = useCartState();
   const { token } = getLocalCredentials();
+  const navigate = useNavigate();
 
   if (!token) {
     return (
@@ -84,7 +85,9 @@ const UserMenu = () => {
         size="xxs"
         variant="primary"
         shape="capsule"
-        onClick={() => logOutUser(dispatch)}
+        onClick={() => {
+          logOutUser({ dispatch, navigate });
+        }}
         className="flex align-items--c gap--xs">
         <div className="text--sm">Logout</div>
         <RiLogoutCircleRFill className="text--xl" />

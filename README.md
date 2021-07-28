@@ -41,6 +41,8 @@
 
 - Change Number of Products displayed
 
+- Payment Checkout - with Stripe Api
+
 - Form Validations - via Formik
 
 - Responsive Design

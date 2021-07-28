@@ -34,7 +34,9 @@ export const AddToCartBtn = ({ desiredProduct }) => {
           variant="primary"
           onClick={(e) => {
             if (token) {
+              dispatch({ type: 'SHOW_LOADER' });
               productAddToCart(e, dispatch, token, userId, desiredProduct._id);
+              dispatch({ type: 'HIDE_LOADER' });
             } else {
               toast.info('Please Login');
               navigate('/login');
